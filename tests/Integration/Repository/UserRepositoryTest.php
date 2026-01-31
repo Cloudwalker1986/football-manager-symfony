@@ -49,7 +49,7 @@ class UserRepositoryTest extends AbstractRepositoryTestCase
     }
 
     #[Test]
-    public function itByExistingUUid(): void
+    public function itFindsByExistingUuid(): void
     {
         $user = new User();
         $user->setEmailAddress('uuid-test@example.com');

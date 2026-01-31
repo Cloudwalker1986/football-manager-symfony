@@ -21,19 +21,19 @@ use Symfony\Component\Uid\Uuid;
 class SendUserVerificationEmailListenerTest extends TestCase
 {
     #[Test]
-    public function itBusMessageIsDispatched(): void
+    public function itDispatchesBusMessage(): void
     {
         $uuid = Uuid::v7();
 
         /** @var MessageBusInterface&MockObject $busMock */
-        $busMessageMock = $this->createMock(MessageBusInterface::class);
-        $busMessageMock
+        $busMock = $this->createMock(MessageBusInterface::class);
+        $busMock
             ->expects(self::once())
             ->method('dispatch')
             ->with(new WelcomeUser($uuid))
             ->willReturn(new Envelope(new WelcomeUser($uuid)));
 
-        $listener = new SendUserVerificationEmailListener($busMessageMock);
+        $listener = new SendUserVerificationEmailListener($busMock);
 
         $listener->registrationCompleted(new UserRegistered($uuid));
     }

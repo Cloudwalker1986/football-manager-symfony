@@ -22,7 +22,7 @@ class UserRegistrationTest extends TestCase
 {
     #[Test]
     #[DataProvider('dataProviderSupport')]
-    public function itCommandIsSupported( CommandInterface $command, bool $expected): void
+    public function itSupportsCommand( CommandInterface $command, bool $expected): void
     {
         $commandHandler = new UserRegisterHandler(
             $this->createStub(CreateEntityInterface::class),

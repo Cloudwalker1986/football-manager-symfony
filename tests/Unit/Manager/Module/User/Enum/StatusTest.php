@@ -132,6 +132,5 @@ class StatusTest extends TestCase
                 'expected' => false
             ]
         ];
-
     }
 }
