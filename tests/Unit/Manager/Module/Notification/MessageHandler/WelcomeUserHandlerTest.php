@@ -14,6 +14,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use Psr\Log\NullLogger;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Uid\Uuid;
@@ -50,7 +51,7 @@ class WelcomeUserHandlerTest extends TestCase
         $translator->expects(self::once())->method('trans')
             ->willReturn('Translated String');
 
-        $handler = new WelcomeUserHandler($userFinderInterface, $mailerInterface, $translator);
+        $handler = new WelcomeUserHandler($userFinderInterface, $mailerInterface, $translator, new NullLogger());
 
         $handler(new WelcomeUser($userUuid));
     }
