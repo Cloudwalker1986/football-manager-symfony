@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'login.reset_password.new_password_title'|trans }}{% endblock %}
+
+{% block body %}
+    <div class="row justify-content-center mt-5">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h1 class="h3 mb-3 font-weight-normal">{{ 'login.reset_password.new_password_title'|trans }}</h1>
+
+                    {{ form_start(resetForm) }}
+                        {{ form_row(resetForm.password) }}
+                        <button class="btn btn-primary w-100 mt-3">{{ 'login.reset_password.new_password_submit'|trans }}</button>
+                    {{ form_end(resetForm) }}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

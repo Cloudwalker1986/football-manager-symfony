@@ -28,6 +28,14 @@
                         <div class="tab-content" id="myTabContent">
                             <div class="tab-pane fade {% if not registrationForm.vars.submitted %}show active{% endif %}" id="user-login-pane" role="tabpanel" aria-labelledby="user-login-tab" tabindex="0">
                                 <form method="post" action="{{ path('app_login') }}" class="mt-3">
+                                    {% for label, messages in app.flashes %}
+                                        {% for message in messages %}
+                                            <div class="alert alert-{{ label }}">
+                                                {{ message }}
+                                            </div>
+                                        {% endfor %}
+                                    {% endfor %}
+
                                     {% if error %}
                                         <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
                                     {% endif %}
@@ -39,6 +47,10 @@
                                     <div class="mb-3">
                                         <label for="inputPassword" class="form-label">{{ 'registration.password.label'|trans }}</label>
                                         <input type="password" name="_password" id="inputPassword" class="form-control" autocomplete="current-password" required>
+                                    </div>
+
+                                    <div class="mb-3 text-end">
+                                        <a href="{{ path('app_forgot_password_request') }}">{{ 'login.forgot_password'|trans }}</a>
                                     </div>
 
                                     <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">

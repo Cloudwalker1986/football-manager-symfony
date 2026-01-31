@@ -16,9 +16,32 @@ registration:
 tabs:
     login: "Einloggen"
     register: "Anmelden"
+login:
+    forgot_password: "Passwort vergessen?"
+    reset_password:
+        title: "Passwort zurücksetzen"
+        submit: "E-Mail zum Zurücksetzen senden"
+        help_text: "Geben Sie Ihre E-Mail-Adresse ein und wir senden Ihnen einen Link zum Zurücksetzen Ihres Passworts."
+        email_label: "E-Mail"
+        check_email_title: "E-Mail zum Zurücksetzen des Passworts gesendet"
+        check_email_message: "Wenn ein Konto mit dieser E-Mail-Adresse existiert, wurde eine E-Mail gesendet, die einen Link zum Zurücksetzen Ihres Passworts enthält. Dieser Link läuft in %expires_at% Minuten ab."
+        check_email_spam_message: "Wenn du keine E-Mail erhältst, überprüfe bitte deinen Spam-Ordner oder <a href=\"%url%\">versuche es erneut</a>."
+        new_password_title: "Neues Passwort festlegen"
+        new_password_submit: "Passwort zurücksetzen"
+        invalid_token: "Ungültiger oder abgelaufener Reset-Token."
+        success: "Dein Passwort wurde erfolgreich zurückgesetzt."
 email:
     welcome:
         subject: "Willkommen beim Football Manager!"
         title: "Willkommen an Bord!"
         message: "Wir freuen uns, dass du dabei bist, %manager_name%."
         verify_link: "Bitte verifiziere dein Konto mit diesem Token: %token%"
+    reset_password:
+        subject: "Deine Anfrage zum Zurücksetzen des Passworts"
+        title: "Passwort zurücksetzen"
+        message: "Um dein Passwort zurückzusetzen, besuche bitte den folgenden Link:"
+        expire_message: "Dieser Link läuft in %expires_at% Minuten ab."
+    password_reset_success:
+        subject: "Passwort erfolgreich zurückgesetzt"
+        title: "Passwort erfolgreich zurückgesetzt"
+        message: "Hallo %manager_name%, dein Passwort wurde erfolgreich zurückgesetzt."

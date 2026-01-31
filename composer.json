@@ -90,10 +90,10 @@
             "@auto-scripts"
         ],
         "unit-tests": [
-            "php vendor/bin/phpunit -c phpunit.dist.xml --group unit-tests"
+            "php vendor/bin/phpunit -c phpunit.dist.xml --testsuite Unit"
         ],
         "integration-tests": [
-            "php vendor/bin/phpunit -c phpunit.dist.xml --group integration-tests"
+            "php vendor/bin/phpunit -c phpunit.dist.xml --testsuite Integration"
         ]
     },
     "conflict": {
