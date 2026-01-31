@@ -6,8 +6,8 @@ namespace App\Entity;
 
 use App\Entity\Interface\IdentifierInterface;
 use App\Entity\Interface\TimeStamperInterface;
-use App\Entity\Trait\IdentifierTrait;
-use App\Entity\Trait\TimeStamperTrait;
+use App\Entity\Trait\Identifier;
+use App\Entity\Trait\DateTimeStamper;
 use App\Repository\ManagerRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping\Column;
@@ -23,8 +23,8 @@ use Doctrine\ORM\Mapping\UniqueConstraint;
 #[Entity(repositoryClass: ManagerRepository::class)]
 class Manager implements IdentifierInterface, TimeStamperInterface
 {
-    use IdentifierTrait;
-    use TimeStamperTrait;
+    use Identifier;
+    use DateTimeStamper;
 
     #[Column(type: Types::STRING, length: 255)]
     private ?string $name = null;

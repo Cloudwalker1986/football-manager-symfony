@@ -6,8 +6,8 @@ namespace App\Entity;
 
 use App\Entity\Interface\IdentifierInterface;
 use App\Entity\Interface\TimeStamperInterface;
-use App\Entity\Trait\IdentifierTrait;
-use App\Entity\Trait\TimeStamperTrait;
+use App\Entity\Trait\Identifier;
+use App\Entity\Trait\DateTimeStamper;
 use App\Manager\Module\User\Enum\Status;
 use App\Repository\UserRepository;
 use Doctrine\DBAL\Types\Types;
@@ -23,8 +23,8 @@ use Doctrine\ORM\Mapping\UniqueConstraint;
 #[Entity(UserRepository::class)]
 class User implements IdentifierInterface, TimeStamperInterface
 {
-    use IdentifierTrait;
-    use TimeStamperTrait;
+    use Identifier;
+    use DateTimeStamper;
 
     #[Column(type: Types::STRING, length: 255, unique: true)]
     private ?string $emailAddress = null;

@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\PrePersist;
 use Doctrine\ORM\Mapping\PreUpdate;
 
-trait TimeStamperTrait
+trait DateTimeStamper
 {
     #[Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
     private ?\DateTimeImmutable $createdAt = null;
@@ -36,7 +36,7 @@ trait TimeStamperTrait
     #[PreUpdate]
     public function onPreUpdateForUpdatedAt(): static
     {
-        $this->updatedAt = $this->updatedAt ?? new \DateTimeImmutable();
+        $this->updatedAt = new \DateTimeImmutable();
 
         return $this;
     }

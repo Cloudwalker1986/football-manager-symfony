@@ -6,8 +6,8 @@ namespace App\Entity;
 
 use App\Entity\Interface\IdentifierInterface;
 use App\Entity\Interface\TimeStamperInterface;
-use App\Entity\Trait\IdentifierTrait;
-use App\Entity\Trait\TimeStamperTrait;
+use App\Entity\Trait\Identifier;
+use App\Entity\Trait\DateTimeStamper;
 use App\Repository\UserVerificationRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping\Column;
@@ -16,14 +16,13 @@ use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
 use Doctrine\ORM\Mapping\OneToOne;
 use Doctrine\ORM\Mapping\UniqueConstraint;
 
-
 #[UniqueConstraint(name: 'unique_uuid', fields: ['uuid'])]
 #[HasLifecycleCallbacks]
 #[Entity(UserVerificationRepository::class)]
 class UserVerification implements IdentifierInterface, TimeStamperInterface
 {
-    use IdentifierTrait;
-    use TimeStamperTrait;
+    use Identifier;
+    use DateTimeStamper;
 
     #[Column(type: Types::DATETIME_IMMUTABLE)]
     private ?\DateTimeImmutable $expiresAt = null;

@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\PrePersist;
 use Symfony\Component\Uid\Uuid;
 
-trait IdentifierTrait
+trait Identifier
 {
     #[Column(type: Types::INTEGER)]
     #[Id]
