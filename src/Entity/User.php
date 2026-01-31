@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Entity\Interface\IdentifierInterface;
-use App\Entity\Interface\TimeStamperInterface;
+use App\Entity\Interface\DateTimeStampeInterface;
 use App\Entity\Trait\Identifier;
 use App\Entity\Trait\DateTimeStamper;
 use App\Manager\Module\User\Enum\Status;
@@ -16,12 +16,14 @@ use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
 use Doctrine\ORM\Mapping\OneToOne;
 use Doctrine\ORM\Mapping\UniqueConstraint;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 #[UniqueConstraint(name: 'unique_email_address', fields: ['emailAddress'])]
 #[UniqueConstraint(name: 'unique_uuid', fields: ['uuid'])]
 #[HasLifecycleCallbacks]
 #[Entity(UserRepository::class)]
-class User implements IdentifierInterface, TimeStamperInterface
+class User implements IdentifierInterface, DateTimeStampeInterface, UserInterface, PasswordAuthenticatedUserInterface
 {
     use Identifier;
     use DateTimeStamper;
@@ -116,5 +118,19 @@ class User implements IdentifierInterface, TimeStamperInterface
         $this->locale = $locale;
 
         return $this;
+    }
+
+    public function getRoles(): array
+    {
+        return ['ROLE_USER'];
+    }
+
+    public function eraseCredentials(): void
+    {
+    }
+
+    public function getUserIdentifier(): string
+    {
+        return (string) $this->emailAddress;
     }
 }

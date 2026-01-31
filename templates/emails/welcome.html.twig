@@ -1,0 +1,7 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>{{ 'email.welcome.title'|trans({}, 'messages', locale) }}</h1>
+    <p>{{ 'email.welcome.message'|trans({'%manager_name%': manager_name}, 'messages', locale) }}</p>
+    <p>{{ 'email.welcome.verify_link'|trans({'%token%': verification_token}, 'messages', locale) }}</p>
+{% endblock %}

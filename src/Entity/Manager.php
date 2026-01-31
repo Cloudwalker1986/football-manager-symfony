@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Entity\Interface\IdentifierInterface;
-use App\Entity\Interface\TimeStamperInterface;
+use App\Entity\Interface\DateTimeStampeInterface;
 use App\Entity\Trait\Identifier;
 use App\Entity\Trait\DateTimeStamper;
 use App\Repository\ManagerRepository;
@@ -21,7 +21,7 @@ use Doctrine\ORM\Mapping\UniqueConstraint;
 #[UniqueConstraint(name: 'unique_uuid', fields: ['uuid'])]
 #[HasLifecycleCallbacks]
 #[Entity(repositoryClass: ManagerRepository::class)]
-class Manager implements IdentifierInterface, TimeStamperInterface
+class Manager implements IdentifierInterface, DateTimeStampeInterface
 {
     use Identifier;
     use DateTimeStamper;

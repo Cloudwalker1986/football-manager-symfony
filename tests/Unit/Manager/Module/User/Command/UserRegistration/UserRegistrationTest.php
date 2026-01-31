@@ -15,6 +15,8 @@ use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
 #[CoversMethod(CommandHandlerInterface::class, 'supports')]
 #[Group('unit-tests')]
@@ -26,7 +28,8 @@ class UserRegistrationTest extends TestCase
     {
         $commandHandler = new UserRegisterHandler(
             $this->createStub(CreateEntityInterface::class),
-            $this->createStub(EventDispatcherInterface::class)
+            $this->createStub(EventDispatcherInterface::class),
+            $this->createStub(UserPasswordHasherInterface::class),
         );
 
         self::assertEquals($expected, $commandHandler->supports($command));
