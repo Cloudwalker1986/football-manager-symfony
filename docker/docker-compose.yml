@@ -1,0 +1,24 @@
+version: '3'
+services:
+  manager-database:
+    image: mysql:8.4
+    container_name: fm-database
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: 1
+      MYSQL_DATABASE: football-manager
+    volumes:
+      - manager-mysql:/var/lib/mysql
+    networks:
+      default:
+        aliases:
+          - fm-database.local
+    ports:
+      - "3306:3306"
+    command: mysqld --sql_mode='' --max_allowed_packet=512M --innodb_buffer_pool_size=512M --innodb_flush_log_at_trx_commit=0
+  mailer:
+    image: mailhog/mailhog
+    ports:
+      - "8025:8025"  # Web UI unter localhost:8025
+      - "1025:1025"  # SMTP-Port
+volumes:
+  manager-mysql:

@@ -1,0 +1,71 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Football Manager – Landing{% endblock %}
+
+{% block body %}
+
+<div class="row" >
+    <div class="col" style="
+        background-image: url({{ asset('images/stadium.png') }});
+        min-height: 600px;
+        background-color: rgba(99,160,239,0.9);
+        background-size: cover;
+        background-position: center center;
+        background-repeat: no-repeat;
+        ">
+        <div>
+            <div class="col col-md-6 offset-md-3 mt-5">
+                <div class="card">
+                    <div class="card-body">
+                        <ul class="nav nav-tabs" id="myTab" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link {% if not registrationForm.vars.submitted %}active{% endif %}" id="user-login" data-bs-toggle="tab" data-bs-target="#user-login-pane" type="button" role="tab" aria-controls="user-login-pane" aria-selected="{{ registrationForm.vars.submitted ? 'false' : 'true' }}">{{ 'tabs.login'|trans }}</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link {% if registrationForm.vars.submitted %}active{% endif %}" id="user-reigster-tab" data-bs-toggle="tab" data-bs-target="#user-reigster-tab-pane" type="button" role="tab" aria-controls="user-reigster-tab-pane" aria-selected="{{ registrationForm.vars.submitted ? 'true' : 'false' }}">{{ 'tabs.register'|trans }}</button>
+                            </li>
+                        </ul>
+                        <div class="tab-content" id="myTabContent">
+                            <div class="tab-pane fade {% if not registrationForm.vars.submitted %}show active{% endif %}" id="user-login-pane" role="tabpanel" aria-labelledby="user-login" tabindex="0">
+                                User Login
+                            </div>
+                            <div class="tab-pane fade {% if registrationForm.vars.submitted %}show active{% endif %}" id="user-reigster-tab-pane" role="tabpanel" aria-labelledby="user-reigster-tab" tabindex="0">
+                                <div class="mt-3">
+                                    {{ form_start(registrationForm, {'action': path('user_register')}) }}
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                {{ form_row(registrationForm.email) }}
+                                            </div>
+                                            <div class="col-md-6">
+                                                {{ form_row(registrationForm.managerName) }}
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-12">
+                                                {{ form_errors(registrationForm.password) }}
+                                            </div>
+                                            <div class="col-md-6">
+                                                {{ form_row(registrationForm.password.first) }}
+                                            </div>
+                                            <div class="col-md-6">
+                                                {{ form_row(registrationForm.password.second) }}
+                                            </div>
+                                        </div>
+                                        <button class="btn btn-primary w-100 mt-3">{{ 'registration.submit'|trans }}</button>
+                                    {{ form_end(registrationForm) }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        <div>Features description</div>
+    </div>
+</div>
+
+{% endblock %}

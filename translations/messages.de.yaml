@@ -1,0 +1,24 @@
+registration:
+    email:
+        label: "Email Adresse"
+        placeholder: "Email Adresse eingeben"
+    password:
+        label: "Passwort"
+        placeholder: "Passwort eingeben"
+        mismatch: "Passwortfelder müssen identisch sein."
+    repeat_password:
+        label: "Passwort wiederholen"
+        placeholder: "Passwort wiederholen"
+    manager_name:
+        label: "Manager Name"
+        placeholder: "Manager Name eingeben"
+    submit: "Jetzt anmelden"
+tabs:
+    login: "Einloggen"
+    register: "Anmelden"
+email:
+    welcome:
+        subject: "Willkommen beim Football Manager!"
+        title: "Willkommen an Bord!"
+        message: "Wir freuen uns, dass du dabei bist, %manager_name%."
+        verify_link: "Bitte verifiziere dein Konto mit diesem Token: %token%"
