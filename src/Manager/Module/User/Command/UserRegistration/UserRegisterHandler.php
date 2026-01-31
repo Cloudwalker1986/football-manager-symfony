@@ -16,6 +16,8 @@ use App\Repository\UserRepository;
 use App\Repository\UserVerificationRepository;
 use Symfony\Component\DependencyInjection\Attribute\Target;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\PasswordHasher\Hasher\PasswordHasherAwareInterface;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Uid\Uuid;
 
 readonly class UserRegisterHandler implements CommandHandlerInterface
@@ -23,7 +25,8 @@ readonly class UserRegisterHandler implements CommandHandlerInterface
     public function __construct(
         #[Target(UserRepository::class)]
         private CreateEntityInterface $userRepository,
-        private EventDispatcherInterface $eventDispatcher
+        private EventDispatcherInterface $eventDispatcher,
+        private UserPasswordHasherInterface $passwordHasher
     ) {
 
     }
@@ -37,10 +40,11 @@ readonly class UserRegisterHandler implements CommandHandlerInterface
     {
         $user = new User()
             ->setEmailAddress($command->getEmail())
-            ->setPassword($command->getPassword())
             ->setStatus(Status::NOT_VERIFIED)
             ->setVerification(new UserVerification()->setExpiresAt(new \DateTimeImmutable('+ 24 Hours')))
             ->setManager(new Manager()->setName($command->getManagerName()));
+
+        $user->setPassword($this->passwordHasher->hashPassword($user, $command->getPassword()));
 
         $this->userRepository->persist($user)->flush();
 

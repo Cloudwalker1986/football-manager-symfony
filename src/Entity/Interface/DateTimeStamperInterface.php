@@ -2,7 +2,7 @@
 
 namespace App\Entity\Interface;
 
-interface TimeStamperInterface
+interface DateTimeStamperInterface
 {
     public function onPrePersistForCreatedAt(): static;
 

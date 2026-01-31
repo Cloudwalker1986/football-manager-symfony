@@ -1,0 +1,9 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block body %}
+    <h1>Dashboard</h1>
+    <p>Welcome to the football manager game, {{ app.user.userIdentifier }}!</p>
+    <a href="{{ path('app_logout') }}">Logout</a>
+{% endblock %}

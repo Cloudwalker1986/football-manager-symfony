@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Entity\Interface\IdentifierInterface;
-use App\Entity\Interface\TimeStamperInterface;
+use App\Entity\Interface\DateTimeStamperInterface;
 use App\Entity\Trait\Identifier;
 use App\Entity\Trait\DateTimeStamper;
 use App\Repository\UserVerificationRepository;
@@ -19,7 +19,7 @@ use Doctrine\ORM\Mapping\UniqueConstraint;
 #[UniqueConstraint(name: 'unique_uuid', fields: ['uuid'])]
 #[HasLifecycleCallbacks]
 #[Entity(UserVerificationRepository::class)]
-class UserVerification implements IdentifierInterface, TimeStamperInterface
+class UserVerification implements IdentifierInterface, DateTimeStamperInterface
 {
     use Identifier;
     use DateTimeStamper;
