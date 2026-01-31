@@ -1,0 +1,11 @@
+registration:
+    email:
+        not_blank: "Please enter your email address."
+        unique: "The email address \"{{ value }}\" is already in use."
+    password:
+        min_length: "Your password must be at least {{ limit }} characters long."
+        not_blank: "Please enter a password."
+        mismatch: "Both passwords are not the same."
+    manager_name:
+        not_blank: "Please enter your manager name."
+        unique: "The manager name \"{{ value }}\" is already in use."
