@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Entity\Interface\IdentifierInterface;
-use App\Entity\Interface\DateTimeStampeInterface;
+use App\Entity\Interface\DateTimeStamperInterface;
 use App\Entity\Trait\Identifier;
 use App\Entity\Trait\DateTimeStamper;
 use App\Manager\Module\User\Enum\Status;
@@ -23,7 +23,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 #[UniqueConstraint(name: 'unique_uuid', fields: ['uuid'])]
 #[HasLifecycleCallbacks]
 #[Entity(UserRepository::class)]
-class User implements IdentifierInterface, DateTimeStampeInterface, UserInterface, PasswordAuthenticatedUserInterface
+class User implements IdentifierInterface, DateTimeStamperInterface, UserInterface, PasswordAuthenticatedUserInterface
 {
     use Identifier;
     use DateTimeStamper;
