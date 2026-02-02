@@ -6,6 +6,8 @@ namespace App\Controller\Security;
 
 use App\Entity\ResetPasswordRequest;
 use App\Manager\Module\Notification\Message\SendPasswordResetEmail;
+use App\Repository\Interface\CreateEntityInterface;
+use App\Repository\Interface\User\RemoveUserTokenInterface;
 use App\Repository\ResetPasswordRequestRepository;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -21,7 +23,7 @@ class ForgotPasswordController extends AbstractController
 
     public function __construct(
         private UserRepository $userRepository,
-        private ResetPasswordRequestRepository $resetPasswordRequestRepository,
+        private CreateEntityInterface&RemoveUserTokenInterface $resetPasswordRequestRepository,
         private MessageBusInterface $messageBus
     ) {
     }
@@ -51,7 +53,7 @@ class ForgotPasswordController extends AbstractController
     public function checkEmail(): Response
     {
         return $this->render('security/reset_password/check_email.html.twig', [
-            'resetTokenLifetime' => 60,
+            'resetTokenLifetime' => self::EXPIRE_TIME_IN_MINUTES,
         ]);
     }
 
@@ -65,7 +67,7 @@ class ForgotPasswordController extends AbstractController
         }
 
         // Remove old reset requests
-        $this->resetPasswordRequestRepository->removeAllForUser($user);
+        $this->resetPasswordRequestRepository->removeUserToken($user);
 
         // Generate a new reset token
         $selector = bin2hex(random_bytes(8));
@@ -81,8 +83,9 @@ class ForgotPasswordController extends AbstractController
             $hashedToken
         );
 
-        $this->resetPasswordRequestRepository->persist($resetPasswordRequest);
-        $this->resetPasswordRequestRepository->flush();
+        $this->resetPasswordRequestRepository
+            ->persist($resetPasswordRequest)
+            ->flush();
 
         $this->messageBus->dispatch(
             new SendPasswordResetEmail(

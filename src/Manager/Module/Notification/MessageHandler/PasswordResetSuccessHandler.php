@@ -35,7 +35,7 @@ readonly class PasswordResetSuccessHandler
 
         $email = (new TemplatedEmail())
             ->to($user->getEmailAddress())
-            ->from('no-reply@localhost')
+            ->from('no-reply@football-manager.local')
             ->subject($this->translator->trans('email.password_reset_success.subject', [], 'messages', $user->getLocale()))
             ->htmlTemplate('emails/password_reset_success.html.twig')
             ->context([

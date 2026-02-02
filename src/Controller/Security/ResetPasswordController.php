@@ -60,7 +60,7 @@ class ResetPasswordController extends AbstractController
             $this->resetPasswordRequestRepository->remove($resetRequest);
 
             // Optionally remove all other tokens for this user
-            $this->resetPasswordRequestRepository->removeAllForUser($user);
+            $this->resetPasswordRequestRepository->removeUserToken($user);
 
             $this->userRepository->flush();
 

@@ -6,24 +6,41 @@ namespace App\Repository;
 
 use App\Entity\ResetPasswordRequest;
 use App\Entity\User;
+use App\Repository\Exception\InvalidEntityArgumentTypeException;
+use App\Repository\Interface\CreateEntityInterface;
+use App\Repository\Interface\User\RemoveUserTokenInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
-class ResetPasswordRequestRepository extends ServiceEntityRepository
+class ResetPasswordRequestRepository
+    extends ServiceEntityRepository
+    implements CreateEntityInterface, RemoveUserTokenInterface
 {
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, ResetPasswordRequest::class);
     }
 
-    public function persist(ResetPasswordRequest $resetPasswordRequest): void
+    public function persist(object $entity): static
     {
-        $this->getEntityManager()->persist($resetPasswordRequest);
+
+        if (!$entity instanceof ResetPasswordRequest) {
+            throw new InvalidEntityArgumentTypeException(
+                ResetPasswordRequest::class,
+                get_class($entity)
+            );
+        }
+
+        $this->getEntityManager()->persist($entity);
+
+        return $this;
     }
 
-    public function flush(): void
+    public function flush(): static
     {
         $this->getEntityManager()->flush();
+
+        return $this;
     }
 
     public function remove(ResetPasswordRequest $resetPasswordRequest): void
@@ -31,20 +48,7 @@ class ResetPasswordRequestRepository extends ServiceEntityRepository
         $this->getEntityManager()->remove($resetPasswordRequest);
     }
 
-    public function findMostRecentNonExpiredRequest(User $user): ?ResetPasswordRequest
-    {
-        return $this->createQueryBuilder('r')
-            ->where('r.user = :user')
-            ->andWhere('r.expiresAt > :now')
-            ->setParameter('user', $user)
-            ->setParameter('now', new \DateTimeImmutable())
-            ->orderBy('r.expiresAt', 'DESC')
-            ->setMaxResults(1)
-            ->getQuery()
-            ->getOneOrNullResult();
-    }
-
-    public function removeAllForUser(User $user): void
+    public function removeUserToken(User $user): void
     {
         $this->createQueryBuilder('r')
             ->delete()

@@ -45,6 +45,8 @@ class LoginTest extends WebTestCase
             try {
                 $connection->executeStatement(sprintf('DELETE FROM %s', $table));
             } catch (\Exception $e) {
+                // Intentionally ignore exceptions during test cleanup; missing tables or
+                // cleanup failures should not cause the tests themselves to fail.
             }
         }
         $connection->executeStatement('SET FOREIGN_KEY_CHECKS=1');
