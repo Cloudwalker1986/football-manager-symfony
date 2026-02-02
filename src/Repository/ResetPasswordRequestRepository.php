@@ -7,14 +7,13 @@ namespace App\Repository;
 use App\Entity\ResetPasswordRequest;
 use App\Entity\User;
 use App\Repository\Exception\InvalidEntityArgumentTypeException;
-use App\Repository\Interface\CreateEntityInterface;
-use App\Repository\Interface\User\RemoveUserTokenInterface;
+use App\Repository\Interface\User\ResetPasswordInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 class ResetPasswordRequestRepository
     extends ServiceEntityRepository
-    implements CreateEntityInterface, RemoveUserTokenInterface
+    implements ResetPasswordInterface
 {
     public function __construct(ManagerRegistry $registry)
     {

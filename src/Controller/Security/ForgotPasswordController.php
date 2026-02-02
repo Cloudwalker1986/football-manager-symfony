@@ -6,9 +6,7 @@ namespace App\Controller\Security;
 
 use App\Entity\ResetPasswordRequest;
 use App\Manager\Module\Notification\Message\SendPasswordResetEmail;
-use App\Repository\Interface\CreateEntityInterface;
-use App\Repository\Interface\User\RemoveUserTokenInterface;
-use App\Repository\ResetPasswordRequestRepository;
+use App\Repository\Interface\User\ResetPasswordInterface;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
@@ -23,7 +21,7 @@ class ForgotPasswordController extends AbstractController
 
     public function __construct(
         private UserRepository $userRepository,
-        private CreateEntityInterface&RemoveUserTokenInterface $resetPasswordRequestRepository,
+        private ResetPasswordInterface $resetPasswordRequestRepository,
         private MessageBusInterface $messageBus
     ) {
     }
