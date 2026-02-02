@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'login.reset_password.check_email_title'|trans }}{% endblock %}
+
+{% block body %}
+    <div class="row justify-content-center mt-5">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h1 class="h3 mb-3 font-weight-normal">{{ 'login.reset_password.check_email_title'|trans }}</h1>
+                    <p>
+                        {{ 'login.reset_password.check_email_message'|trans({'%expires_at%': resetTokenLifetime}) }}
+                    </p>
+                    <p>
+                        {{ 'login.reset_password.check_email_spam_message'|trans({'%url%': path('app_forgot_password_request')})|raw }}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

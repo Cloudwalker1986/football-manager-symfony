@@ -21,7 +21,6 @@ class LoginTest extends WebTestCase
 
     protected function setUp(): void
     {
-        $this->markTestSkipped('This test is not ready yet.');
         $this->client = self::createClient();
         $container = self::getContainer();
         $this->userRepository = $container->get(UserRepository::class);
@@ -41,9 +40,15 @@ class LoginTest extends WebTestCase
         $entityManager = self::getContainer()->get('doctrine')->getManager();
         $connection = $entityManager->getConnection();
         $connection->executeStatement('SET FOREIGN_KEY_CHECKS=0');
-        $connection->executeStatement('DELETE FROM user_verification');
-        $connection->executeStatement('DELETE FROM manager');
-        $connection->executeStatement('DELETE FROM user');
+        $tables = ['reset_password_request', 'user_verification', 'manager', 'user'];
+        foreach ($tables as $table) {
+            try {
+                $connection->executeStatement(sprintf('DELETE FROM %s', $table));
+            } catch (\Exception $e) {
+                // Intentionally ignore exceptions during test cleanup; missing tables or
+                // cleanup failures should not cause the tests themselves to fail.
+            }
+        }
         $connection->executeStatement('SET FOREIGN_KEY_CHECKS=1');
     }
 

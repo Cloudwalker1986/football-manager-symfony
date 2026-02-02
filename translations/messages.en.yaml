@@ -16,9 +16,32 @@ registration:
 tabs:
     login: "Login"
     register: "Register"
+login:
+    forgot_password: "Forgot password?"
+    reset_password:
+        title: "Reset your password"
+        submit: "Send password reset email"
+        help_text: "Enter your email address and we will send you a link to reset your password."
+        email_label: "Email"
+        check_email_title: "Password reset email sent"
+        check_email_message: "If an account exists with that email, an email has been sent that contains a link you can use to reset your password. This link will expire in %expires_at% minutes."
+        check_email_spam_message: "If you don't receive an email please check your spam folder or <a href=\"%url%\">try again</a>."
+        new_password_title: "Set new password"
+        new_password_submit: "Reset password"
+        invalid_token: "Invalid or expired reset token."
+        success: "Your password has been reset successfully."
 email:
     welcome:
         subject: "Welcome to Football Manager!"
         title: "Welcome aboard!"
         message: "We are happy to have you with us, %manager_name%."
         verify_link: "Please verify your account using this token: %token%"
+    reset_password:
+        subject: "Your password reset request"
+        title: "Password Reset"
+        message: "To reset your password, please visit the following link:"
+        expire_message: "This link will expire in %expires_at% minutes."
+    password_reset_success:
+        subject: "Password reset successful"
+        title: "Password reset successful"
+        message: "Hello %manager_name%, your password has been successfully reset."
