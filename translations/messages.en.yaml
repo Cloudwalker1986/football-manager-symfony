@@ -74,4 +74,12 @@ profile:
         user_details: "User Details"
         manager_details: "Manager Details"
         change_password: "Change Password"
+        delete_account: "Delete Account"
     submit: "Update Profile"
+    delete_account: "Delete Account"
+    delete_account_warning: "Once you delete your account, there is no going back. Please be certain."
+    delete_account_confirm: "Are you sure you want to delete your account? All your data will be permanently removed."
+    delete:
+        success: "Your account has been successfully deleted."
+        invalid_csrf: "Invalid CSRF token."
+cancel: "Cancel"

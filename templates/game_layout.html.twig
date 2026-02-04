@@ -74,21 +74,21 @@
                     <li class="dropdown pc-h-item header-user-profile">
                         <a class="pc-head-link dropdown-toggle arrow-none me-0" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" data-bs-auto-close="outside" aria-expanded="false">
                             <img src="../assets/images/user/avatar-2.jpg" alt="user-image" class="user-avtar">
-                            <span>{{ app.user.manager.name|default(app.user.userIdentifier) }}</span>
+                            <span>{{ app.user.manager.name ?? app.user.userIdentifier }}</span>
                         </a>
                         <div class="dropdown-menu dropdown-user-profile dropdown-menu-end pc-h-dropdown">
                             <div class="dropdown-header">
                                 <div class="d-flex mb-1">
                                     <div class="flex-shrink-0">
                                         <div class="avtar avtar-s rounded-circle bg-success text-white" style="width: 35px; height: 35px; line-height: 35px; text-align: center;">
-                                            {% set name_parts = app.user.manager.name|default('')|split(' ') %}
+                                            {% set name_parts = (app.user.manager.name ?? '')|split(' ') %}
                                             {% for part in name_parts %}
                                                 {{ part|slice(0, 1)|upper }}
                                             {% endfor %}
                                         </div>
                                     </div>
                                     <div class="flex-grow-1 ms-3">
-                                        <h6 class="mb-1">{{ app.user.manager.name|default(app.user.userIdentifier) }}</h6>
+                                        <h6 class="mb-1">{{ app.user.manager.name ?? app.user.userIdentifier }}</h6>
                                         <span>Manager</span>
                                     </div>
                                     <a href="{{ path('app_logout', {'_locale': app.request.locale}) }}" class="pc-head-link bg-transparent"><i class="ti ti-power text-danger"></i></a>

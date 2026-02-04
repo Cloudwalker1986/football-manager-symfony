@@ -5,65 +5,17 @@ declare(strict_types=1);
 namespace App\IntegrationTests\Controller;
 
 use App\Entity\ResetPasswordRequest;
-use App\Entity\User;
 use App\Manager\Module\User\Enum\Status;
-use App\Repository\ResetPasswordRequestRepository;
-use App\Repository\UserRepository;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Test;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 #[Group('integration-tests')]
-class ResetPasswordTest extends WebTestCase
+class ResetPasswordTest extends AbstractControllerTestCase
 {
-    private ?UserRepository $userRepository;
-    private ?ResetPasswordRequestRepository $resetPasswordRequestRepository;
-    private ?UserPasswordHasherInterface $passwordHasher;
-    private $client;
-
-    protected function setUp(): void
-    {
-        $this->client = self::createClient();
-        $container = self::getContainer();
-        $this->userRepository = $container->get(UserRepository::class);
-        $this->resetPasswordRequestRepository = $container->get(ResetPasswordRequestRepository::class);
-        $this->passwordHasher = $container->get(UserPasswordHasherInterface::class);
-        $this->cleanupDatabase();
-    }
-
-    protected function tearDown(): void
-    {
-        $this->cleanupDatabase();
-        $this->client = null;
-        parent::tearDown();
-    }
-
-    private function cleanupDatabase(): void
-    {
-        $entityManager = self::getContainer()->get('doctrine')->getManager();
-        $connection = $entityManager->getConnection();
-        $connection->executeStatement('SET FOREIGN_KEY_CHECKS=0');
-        $tables = ['reset_password_request', 'user_verification', 'manager', 'user'];
-        foreach ($tables as $table) {
-            try {
-                $connection->executeStatement(sprintf('DELETE FROM %s', $table));
-            } catch (\Exception $e) {
-                // Ignore if table doesn't exist yet
-            }
-        }
-        $connection->executeStatement('SET FOREIGN_KEY_CHECKS=1');
-    }
-
     #[Test]
     public function itCanRequestPasswordReset(): void
     {
-        $user = new User();
-        $user->setEmailAddress('reset-test@example.com');
-        $user->setPassword('old-password');
-        $user->setStatus(Status::VERIFIED);
-        $this->userRepository->persist($user);
-        $this->userRepository->flush();
+        $user = $this->createUserWithManager('reset-test@example.com', 'old-password');
 
         $crawler = $this->client->request('GET', '/de/forgot-password');
         self::assertResponseIsSuccessful();
@@ -101,12 +53,7 @@ class ResetPasswordTest extends WebTestCase
     #[Test]
     public function itCanResetPasswordWithValidToken(): void
     {
-        $user = new User();
-        $user->setEmailAddress('reset-complete@example.com');
-        $user->setPassword('old-password');
-        $user->setStatus(Status::VERIFIED);
-        $this->userRepository->persist($user);
-        $this->userRepository->flush();
+        $user = $this->createUserWithManager('reset-complete@example.com', 'old-password');
 
         $selector = 'test_selector';
         $verifier = 'test_verifier';
@@ -144,12 +91,7 @@ class ResetPasswordTest extends WebTestCase
     #[Test]
     public function itCannotResetWithExpiredToken(): void
     {
-        $user = new User();
-        $user->setEmailAddress('expired@example.com');
-        $user->setPassword('old-password');
-        $user->setStatus(Status::VERIFIED);
-        $this->userRepository->persist($user);
-        $this->userRepository->flush();
+        $user = $this->createUserWithManager('expired@example.com', 'old-password');
 
         $selector = 'expired_selector';
         $verifier = 'expired_verifier';
