@@ -45,3 +45,33 @@ email:
         subject: "Password reset successful"
         title: "Password reset successful"
         message: "Hello %manager_name%, your password has been successfully reset."
+profile:
+    title: "User Profile"
+    update_success: "Profile updated successfully."
+    email:
+        label: "Email Address"
+        placeholder: "Enter email address"
+    manager_name:
+        label: "Manager Name"
+        placeholder: "Enter manager name"
+    locale:
+        label: "Language"
+        german: "German"
+        english: "English"
+    current_password:
+        label: "Current Password"
+        placeholder: "Enter current password"
+        invalid: "The current password is invalid."
+    new_password:
+        label: "New Password"
+        placeholder: "Enter new password"
+    repeat_password:
+        label: "Repeat Password"
+        placeholder: "Repeat password"
+    password:
+        mismatch: "The passwords must match."
+    sections:
+        user_details: "User Details"
+        manager_details: "Manager Details"
+        change_password: "Change Password"
+    submit: "Update Profile"

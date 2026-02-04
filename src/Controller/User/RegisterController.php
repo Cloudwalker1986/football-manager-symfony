@@ -34,6 +34,8 @@ class RegisterController extends AbstractController
 
         return $this->render('landing/index.html.twig', [
             'registrationForm' => $form->createView(),
+            'error' => null,
+            'last_username' => '',
         ]);
     }
 }

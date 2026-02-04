@@ -9,3 +9,9 @@ registration:
     manager_name:
         not_blank: "Please enter your manager name."
         unique: "The manager name \"{{ value }}\" is already in use."
+profile:
+    email:
+        not_blank: "Please enter your email address."
+        invalid: "Please enter a valid email address."
+    manager_name:
+        not_blank: "Please enter your manager name."

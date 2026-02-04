@@ -75,7 +75,7 @@ class LoginTest extends WebTestCase
 
         self::assertResponseRedirects('/de/dashboard');
         $this->client->followRedirect();
-        self::assertSelectorTextContains('h1', 'Dashboard');
+        self::assertSelectorTextContains('h5', 'Dashboard');
         self::assertSelectorTextContains('p', 'Welcome to the football manager game, login-test@example.com!');
     }
 
