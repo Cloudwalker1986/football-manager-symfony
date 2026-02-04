@@ -45,3 +45,33 @@ email:
         subject: "Passwort erfolgreich zurückgesetzt"
         title: "Passwort erfolgreich zurückgesetzt"
         message: "Hallo %manager_name%, dein Passwort wurde erfolgreich zurückgesetzt."
+profile:
+    title: "Benutzerprofil"
+    update_success: "Profil erfolgreich aktualisiert."
+    email:
+        label: "E-Mail-Adresse"
+        placeholder: "E-Mail-Adresse eingeben"
+    manager_name:
+        label: "Manager-Name"
+        placeholder: "Manager-Name eingeben"
+    locale:
+        label: "Sprache"
+        german: "Deutsch"
+        english: "Englisch"
+    current_password:
+        label: "Aktuelles Passwort"
+        placeholder: "Aktuelles Passwort eingeben"
+        invalid: "Das aktuelle Passwort ist ungültig."
+    new_password:
+        label: "Neues Passwort"
+        placeholder: "Neues Passwort eingeben"
+    repeat_password:
+        label: "Passwort wiederholen"
+        placeholder: "Passwort wiederholen"
+    password:
+        mismatch: "Die Passwörter müssen übereinstimmen."
+    sections:
+        user_details: "Benutzerdetails"
+        manager_details: "Managerdetails"
+        change_password: "Passwort ändern"
+    submit: "Profil aktualisieren"

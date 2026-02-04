@@ -76,7 +76,7 @@ class ResetPasswordTest extends WebTestCase
 
         self::assertResponseRedirects('/de/forgot-password/check-email');
         $this->client->followRedirect();
-        self::assertSelectorTextContains('h1', 'E-Mail zum Zurücksetzen des Passworts gesendet');
+        self::assertSelectorTextContains('h3', 'E-Mail zum Zurücksetzen des Passworts gesendet');
 
         // Verify request exists in DB
         $resetRequest = $this->resetPasswordRequestRepository->findOneBy(['user' => $user]);
@@ -95,7 +95,7 @@ class ResetPasswordTest extends WebTestCase
 
         self::assertResponseRedirects('/de/forgot-password/check-email');
         $this->client->followRedirect();
-        self::assertSelectorTextContains('h1', 'E-Mail zum Zurücksetzen des Passworts gesendet');
+        self::assertSelectorTextContains('h3', 'E-Mail zum Zurücksetzen des Passworts gesendet');
     }
 
     #[Test]

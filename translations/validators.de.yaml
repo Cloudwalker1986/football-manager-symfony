@@ -9,3 +9,9 @@ registration:
     manager_name:
         not_blank: "Bitte geben Sie Ihren Managernamen ein."
         unique: "Der Managername \"{{ value }}\" wird bereits verwendet."
+profile:
+    email:
+        not_blank: "Bitte geben Sie Ihre E-Mail-Adresse ein."
+        invalid: "Bitte geben Sie eine gültige E-Mail-Adresse ein."
+    manager_name:
+        not_blank: "Bitte geben Sie Ihren Managernamen ein."

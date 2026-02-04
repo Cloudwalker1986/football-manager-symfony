@@ -1,9 +1,19 @@
-{% extends 'base.html.twig' %}
+{% extends 'game_layout.html.twig' %}
 
 {% block title %}Dashboard{% endblock %}
 
-{% block body %}
-    <h1>Dashboard</h1>
-    <p>Welcome to the football manager game, {{ app.user.userIdentifier }}!</p>
-    <a href="{{ path('app_logout') }}">Logout</a>
+{% block content_title %}Dashboard{% endblock %}
+
+{% block breadcrumb %}Dashboard{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <p>Welcome to the football manager game, {{ app.user.userIdentifier }}!</p>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
