@@ -84,8 +84,46 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="col-md-6 mb-3">
+                    <!-- Delete Account Section -->
+                    <div class="card h-100">
+                        <div class="card-header">
+                            <h5>{{ 'profile.sections.delete_account'|trans }}</h5>
+                        </div>
+                        <div class="card-body">
+                            <p>{{ 'profile.delete_account_warning'|trans }}</p>
+                            <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteAccountModal">
+                                <i class="ti ti-trash"></i> {{ 'profile.delete_account'|trans }}
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </div>
             {{ form_end(form) }}
+        </div>
+    </div>
+
+    <!-- Delete Account Confirmation Modal -->
+    <div class="modal fade" id="deleteAccountModal" tabindex="-1" aria-labelledby="deleteAccountModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteAccountModalLabel">{{ 'profile.sections.danger_zone'|trans }}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>{{ 'profile.delete_account_confirm'|trans }}</p>
+                    <p class="text-danger small">{{ 'profile.delete_account_warning'|trans }}</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ 'cancel'|trans|default('Cancel') }}</button>
+                    <form action="{{ path('app_profile_delete') }}" method="post">
+                        <input type="hidden" name="_token" value="{{ csrf_token('delete-account') }}">
+                        <button type="submit" class="btn btn-danger">{{ 'profile.delete_account'|trans }}</button>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
 {% endblock %}

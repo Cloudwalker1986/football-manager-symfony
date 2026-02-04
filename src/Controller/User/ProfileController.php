@@ -6,6 +6,7 @@ namespace App\Controller\User;
 
 use App\Entity\User;
 use App\Manager\Framework\Command\CommandBus;
+use App\Manager\Module\User\Command\DeleteAccount\DeleteAccountCommand;
 use App\Manager\Module\User\Command\UpdateProfile\UpdateProfileCommand;
 use App\Manager\Module\User\Form\UpdateProfileFormType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -40,7 +41,7 @@ class ProfileController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             try {
                 $commandBus->handle($command);
-                $this->addFlash('success', 'profile.update_success');
+                $this->addFlash('success', $translator->trans('profile.update_success'));
 
                 return $this->redirectToRoute('app_profile', ['_locale' => $command->getLocale()]);
             } catch (BadRequestHttpException $e) {
@@ -51,5 +52,20 @@ class ProfileController extends AbstractController
         return $this->render('user/profile.html.twig', [
             'form' => $form->createView(),
         ]);
+    }
+
+    #[Route('/profile/delete', name: 'app_profile_delete', methods: ['POST'])]
+    public function delete(Request $request, CommandBus $commandBus, TranslatorInterface $translator): Response
+    {
+        if (!$this->isCsrfTokenValid('delete-account', $request->request->get('_token'))) {
+            $this->addFlash('error', $translator->trans('profile.delete.invalid_csrf'));
+            return $this->redirectToRoute('app_profile');
+        }
+
+        $commandBus->handle(new DeleteAccountCommand());
+
+        $this->addFlash('success', $translator->trans('profile.delete.success'));
+
+        return $this->redirectToRoute('app_login');
     }
 }
