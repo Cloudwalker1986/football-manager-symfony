@@ -82,4 +82,4 @@ profile:
     delete:
         success: "Your account has been successfully deleted."
         invalid_csrf: "Invalid CSRF token."
-cancel: "Cancel"
+    cancel: "Cancel"

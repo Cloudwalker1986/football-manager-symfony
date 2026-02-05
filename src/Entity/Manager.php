@@ -9,12 +9,16 @@ use App\Entity\Interface\DateTimeStamperInterface;
 use App\Entity\Trait\Identifier;
 use App\Entity\Trait\DateTimeStamper;
 use App\Repository\ManagerRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
 use Doctrine\ORM\Mapping\JoinColumn;
+use Doctrine\ORM\Mapping\OneToMany;
 use Doctrine\ORM\Mapping\OneToOne;
+use Doctrine\ORM\Mapping\OrderBy;
 use Doctrine\ORM\Mapping\UniqueConstraint;
 
 
@@ -33,6 +37,14 @@ class Manager implements IdentifierInterface, DateTimeStamperInterface
     #[JoinColumn(nullable: false)]
     private ?User $user = null;
 
+    #[OneToMany(targetEntity: ManagerHistory::class, mappedBy: 'manager')]
+    #[OrderBy(['createdAt' => 'DESC'])]
+    private Collection $history;
+
+    public function __construct()
+    {
+        $this->history = new ArrayCollection();
+    }
 
     public function getName(): ?string
     {

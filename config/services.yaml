@@ -21,6 +21,7 @@ services:
 
     App\Repository\Interface\CreateEntityInterface $userRepository: '@App\Repository\UserRepository'
     App\Repository\Interface\CreateEntityInterface $managerRepository: '@App\Repository\ManagerRepository'
+    App\Repository\Interface\CreateEntityInterface $managerHistoryRepository: '@App\Repository\ManagerHistoryRepository'
     App\Repository\Interface\User\ResetPasswordInterface $resetPasswordRequestRepository: '@App\Repository\ResetPasswordRequestRepository'
 
     # add more service definitions when explicit configuration is needed
