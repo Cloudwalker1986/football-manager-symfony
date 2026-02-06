@@ -15,6 +15,7 @@ use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
 use Doctrine\ORM\Mapping\OneToOne;
 use Doctrine\ORM\Mapping\UniqueConstraint;
+use Symfony\Component\Serializer\Attribute\MaxDepth;
 
 #[UniqueConstraint(name: 'unique_uuid', fields: ['uuid'])]
 #[HasLifecycleCallbacks]
@@ -47,9 +48,11 @@ class UserVerification implements IdentifierInterface, DateTimeStamperInterface
         return $this->user;
     }
 
+    #[MaxDepth(1)]
     public function setUser(?User $user): static
     {
         $this->user = $user;
+        $user->setVerification($this);
 
         return $this;
     }

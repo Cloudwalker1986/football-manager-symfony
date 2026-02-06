@@ -43,4 +43,13 @@ trait Identifier
 
         return $this;
     }
+
+    public function setUuid(string $uuid): static
+    {
+        if (getenv('APP_ENV') === 'test') {
+            $this->uuid = $uuid;
+        }
+
+        return $this;
+    }
 }

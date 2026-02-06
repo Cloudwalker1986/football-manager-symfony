@@ -93,6 +93,10 @@
             "php vendor/bin/phpunit -c phpunit.dist.xml --testsuite Unit"
         ],
         "integration-tests": [
+            "php bin/console doctrine:database:drop -e test --if-exists --force",
+            "php bin/console doctrine:database:create -e test --if-not-exists -n",
+            "php bin/console do:mi:mi -e test -n",
+            "php bin/console hautelook:fixtures:load -e test -n",
             "php vendor/bin/phpunit -c phpunit.dist.xml --testsuite Integration"
         ]
     },
@@ -106,6 +110,7 @@
         }
     },
     "require-dev": {
+        "hautelook/alice-bundle": "^2.17",
         "phpunit/phpunit": "^12.5",
         "symfony/browser-kit": "8.0.*",
         "symfony/css-selector": "8.0.*",
