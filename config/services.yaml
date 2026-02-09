@@ -23,6 +23,11 @@ services:
     App\Repository\Interface\CreateEntityInterface $managerRepository: '@App\Repository\ManagerRepository'
     App\Repository\Interface\CreateEntityInterface $managerHistoryRepository: '@App\Repository\ManagerHistoryRepository'
     App\Repository\Interface\User\ResetPasswordInterface $resetPasswordRequestRepository: '@App\Repository\ResetPasswordRequestRepository'
+    App\Repository\Interface\User\UserFinderInterface: '@App\Repository\UserRepository'
 
+    App\IntegrationTests\FixtureProvider\:
+        resource: '../tests/Integration/FixtureProvider/'
+        autowire: true
+        autoconfigure: true
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones

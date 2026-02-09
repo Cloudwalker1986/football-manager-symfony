@@ -44,6 +44,6 @@ jobs:
         DATABASE_URL: "mysql://root@127.0.0.1:3306/football_manager?serverVersion=8.4.32&charset=utf8mb4"
 
     - name: Execute Integration Tests
-      run: vendor/bin/phpunit --testsuite Integration
+      run: composer integration-tests
       env:
         DATABASE_URL: "mysql://root@127.0.0.1:3306/football_manager?serverVersion=8.4.32&charset=utf8mb4"

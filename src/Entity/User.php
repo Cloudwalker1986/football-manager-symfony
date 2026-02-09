@@ -18,6 +18,7 @@ use Doctrine\ORM\Mapping\OneToOne;
 use Doctrine\ORM\Mapping\UniqueConstraint;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Serializer\Attribute\MaxDepth;
 
 #[UniqueConstraint(name: 'unique_email_address', fields: ['emailAddress'])]
 #[UniqueConstraint(name: 'unique_uuid', fields: ['uuid'])]
@@ -90,7 +91,6 @@ class User implements IdentifierInterface, DateTimeStamperInterface, UserInterfa
 
     public function setVerification(?UserVerification $verification): static
     {
-        $verification->setUser($this);
         $this->verification = $verification;
 
         return $this;
