@@ -39,7 +39,9 @@ class ListController extends AbstractController
         $messages = $messageRepository->findByManagerPaginated($manager, $limit, $offset, $state);
         $totalMessages = $messageRepository->countByManager($manager, $state);
 
-        return $this->render('message/list.html.twig', [
+        $template = $request->query->get('ajax') ? 'message/_table_content.html.twig' : 'message/overview.html.twig';
+
+        return $this->render($template, [
             'messages' => $messages,
             'limit' => $limit,
             'offset' => $offset,

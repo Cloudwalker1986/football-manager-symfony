@@ -25,4 +25,10 @@ return [
     '@hotwired/turbo' => [
         'version' => '7.3.0',
     ],
+    'message_list' => [
+        'path' => './assets/message/overview.js',
+    ],
+    'jquery' => [
+        'version' => '4.0.0',
+    ],
 ];

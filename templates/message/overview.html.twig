@@ -1,0 +1,87 @@
+{% extends 'game_layout.html.twig' %}
+
+{% block title %}{{ 'message.list.title'|trans }}{% endblock %}
+
+{% block content_title %}{{ 'message.list.title'|trans }}{% endblock %}
+
+{% block breadcrumb %}{{ 'message.list.title'|trans }}{% endblock %}
+
+{% block content %}
+    <div class="position-relative" id="message-container-wrapper">
+        <div id="message-container-spinner" class="position-absolute top-50 start-50 translate-middle d-none" style="z-index: 1000;">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">{{ 'common.loading'|trans }}</span></span>
+            </div>
+        </div>
+        <div class="row" id="message-container-content">
+            <div class="col-lg-5">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="card-title mb-0">{{ 'message.list.card_title'|trans }}</h5>
+                        <div class="btn-group" role="group">
+                            <a href="{{ path('app_message_list', {state: null}) }}" class="btn btn-sm ajax-link {{ current_state is empty ? 'btn-primary' : 'btn-outline-primary' }}">
+                                {{ 'message.list.filter.all'|trans }}
+                            </a>
+                            <a href="{{ path('app_message_list', {state: 'unread'}) }}" class="btn btn-sm ajax-link {{ current_state == 'unread' ? 'btn-primary' : 'btn-outline-primary' }}">
+                                {{ 'message.list.filter.unread'|trans }}
+                            </a>
+                            <a href="{{ path('app_message_list', {state: 'read'}) }}" class="btn btn-sm ajax-link {{ current_state == 'read' ? 'btn-primary' : 'btn-outline-primary' }}">
+                                {{ 'message.list.filter.read'|trans }}
+                            </a>
+                        </div>
+                    </div>
+                    <div class="card-body" style="min-height: 200px;">
+                        <div id="message-list-container">
+                            {% include 'message/_table_content.html.twig' %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-7">
+                <div class="card" id="message-detail-card" style="display: none; min-height: 200px;">
+                    <div id="message-detail-container">
+                        <div class="card-header">
+                            <h5 class="card-title mb-0" id="message-detail-subject">{{ 'message.detail.title'|trans }}</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="mb-3">
+                                <strong>{{ 'message.detail.from'|trans }}:</strong>
+                                <span id="message-detail-sender"></span>
+                            </div>
+                            <div class="mb-3">
+                                <strong>{{ 'message.detail.date'|trans }}:</strong>
+                                <span id="message-detail-date"></span>
+                            </div>
+                            <hr>
+                            <div id="message-detail-content" style="white-space: pre-wrap;"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card" id="message-detail-placeholder">
+                    <div class="card-body text-center text-muted">
+                        <p>{{ 'message.detail.select_message'|trans }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="module">
+        import { initMessageList } from 'message_list';
+        document.addEventListener('DOMContentLoaded', () => {
+            initMessageList({
+                viewUrlTemplate: '{{ path('app_message_view', {uuid: '__UUID__'}) }}',
+                translations: {
+                    read: '{{ 'message.state.read'|trans }}',
+                    noSubject: '{{ 'message.list.table.no_subject'|trans }}',
+                    defaultSender: '{{ 'message.list.table.sender_name.default'|trans }}',
+                    errorLoading: '{{ 'message.detail.error_loading'|trans }}'
+                }
+            });
+        });
+    </script>
+{% endblock %}
