@@ -19,6 +19,7 @@ abstract class AbstractControllerTestCase extends WebTestCase
     protected ?KernelBrowser $client;
     protected ?UserRepository $userRepository;
     protected ?ManagerRepository $managerRepository;
+    protected ?\App\Repository\MessageRepository $messageRepository;
     protected ?ResetPasswordRequestRepository $resetPasswordRequestRepository;
     protected ?UserPasswordHasherInterface $passwordHasher;
 
@@ -28,6 +29,7 @@ abstract class AbstractControllerTestCase extends WebTestCase
         $container = self::getContainer();
         $this->userRepository = $container->get(UserRepository::class);
         $this->managerRepository = $container->get(ManagerRepository::class);
+        $this->messageRepository = $container->get(\App\Repository\MessageRepository::class);
         $this->resetPasswordRequestRepository = $container->get(ResetPasswordRequestRepository::class);
         $this->passwordHasher = $container->get(UserPasswordHasherInterface::class);
         $this->cleanupDatabase();
@@ -45,7 +47,7 @@ abstract class AbstractControllerTestCase extends WebTestCase
         $entityManager = self::getContainer()->get('doctrine')->getManager();
         $connection = $entityManager->getConnection();
         $connection->executeStatement('SET FOREIGN_KEY_CHECKS=0');
-        $tables = ['reset_password_request', 'user_verification', 'manager', 'user'];
+        $tables = ['message', 'reset_password_request', 'user_verification', 'manager', 'user'];
         foreach ($tables as $table) {
             try {
                 $connection->executeStatement(sprintf('DELETE FROM %s', $table));

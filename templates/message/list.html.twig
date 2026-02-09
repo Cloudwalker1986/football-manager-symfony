@@ -1,0 +1,86 @@
+{% extends 'game_layout.html.twig' %}
+
+{% block title %}{{ 'message.list.title'|trans }}{% endblock %}
+
+{% block content_title %}{{ 'message.list.title'|trans }}{% endblock %}
+
+{% block breadcrumb %}{{ 'message.list.title'|trans }}{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="card-title mb-0">{{ 'message.list.card_title'|trans }}</h5>
+                    <div class="btn-group" role="group">
+                        <a href="{{ path('app_message_list', {state: null}) }}" class="btn btn-sm {{ current_state is empty ? 'btn-primary' : 'btn-outline-primary' }}">
+                            {{ 'message.list.filter.all'|trans }}
+                        </a>
+                        <a href="{{ path('app_message_list', {state: 'unread'}) }}" class="btn btn-sm {{ current_state == 'unread' ? 'btn-primary' : 'btn-outline-primary' }}">
+                            {{ 'message.list.filter.unread'|trans }}
+                        </a>
+                        <a href="{{ path('app_message_list', {state: 'read'}) }}" class="btn btn-sm {{ current_state == 'read' ? 'btn-primary' : 'btn-outline-primary' }}">
+                            {{ 'message.list.filter.read'|trans }}
+                        </a>
+                    </div>
+                </div>
+                <div class="card-body">
+                    {% if messages is empty %}
+                        <p>{{ 'message.list.no_messages'|trans }}</p>
+                    {% else %}
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>{{ 'message.list.table.subject'|trans }}</th>
+                                        <th>{{ 'message.list.table.sender'|trans }}</th>
+                                        <th>{{ 'message.list.table.date'|trans }}</th>
+                                        <th>{{ 'message.list.table.status'|trans }}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for message in messages %}
+                                        <tr>
+                                            <td>{{ message.subject|default('message.list.table.no_subject'|trans) }}</td>
+                                            <td>{{ message.sender.name|default('System') }}</td>
+                                            <td>{{ message.createdAt|date('Y-m-d H:i') }}</td>
+                                            <td>
+                                                <span class="badge {{ message.state.value == 'read' ? 'bg-success' : 'bg-warning' }}">
+                                                    {{ ('message.state.' ~ message.state.value)|trans }}
+                                                </span>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="mt-3">
+                            <nav aria-label="Message pagination">
+                                <ul class="pagination">
+                                    <li class="page-item {{ offset == 0 ? 'disabled' : '' }}">
+                                        <a class="page-link" href="{{ path('app_message_list', {offset: max(0, offset - limit), limit: limit, state: current_state}) }}" aria-label="Previous">
+                                            <span aria-hidden="true">&laquo;</span>
+                                        </a>
+                                    </li>
+
+                                    {% for i in 1..pages %}
+                                        <li class="page-item {{ i == current_page ? 'active' : '' }}">
+                                            <a class="page-link" href="{{ path('app_message_list', {offset: (i - 1) * limit, limit: limit, state: current_state}) }}">{{ i }}</a>
+                                        </li>
+                                    {% endfor %}
+
+                                    <li class="page-item {{ (offset + limit) >= total ? 'disabled' : '' }}">
+                                        <a class="page-link" href="{{ path('app_message_list', {offset: offset + limit, limit: limit, state: current_state}) }}" aria-label="Next">
+                                            <span aria-hidden="true">&raquo;</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

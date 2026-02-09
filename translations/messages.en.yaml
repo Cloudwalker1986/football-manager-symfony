@@ -83,3 +83,24 @@ profile:
         success: "Your account has been successfully deleted."
         invalid_csrf: "Invalid CSRF token."
     cancel: "Cancel"
+message:
+    list:
+        title: "Messages"
+        card_title: "My Messages"
+        no_messages: "No messages found."
+        table:
+            date: "Date"
+            sender: "Sender"
+            subject: "Subject"
+            status: "Status"
+            no_subject: "No Subject"
+        pagination:
+            previous: "Previous"
+            next: "Next"
+        filter:
+            all: "All"
+            unread: "Unread"
+            read: "Read"
+    state:
+        read: "Read"
+        unread: "Unread"

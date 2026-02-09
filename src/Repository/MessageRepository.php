@@ -40,4 +40,43 @@ class MessageRepository extends ServiceEntityRepository implements CreateEntityI
 
         return $this;
     }
+
+    /**
+     * @return Message[]
+     */
+    public function findByManagerPaginated(
+        \App\Entity\Manager $manager,
+        int $limit = 10,
+        int $offset = 0,
+        ?\App\Manager\Module\Message\Enum\State $state = null
+    ): array {
+        $qb = $this->createQueryBuilder('m')
+            ->andWhere('m.manager = :manager')
+            ->setParameter('manager', $manager)
+            ->orderBy('m.createdAt', 'ASC')
+            ->setMaxResults($limit)
+            ->setFirstResult($offset);
+
+        if ($state !== null) {
+            $qb->andWhere('m.state = :state')
+                ->setParameter('state', $state);
+        }
+
+        return $qb->getQuery()->getResult();
+    }
+
+    public function countByManager(\App\Entity\Manager $manager, ?\App\Manager\Module\Message\Enum\State $state = null): int
+    {
+        $qb = $this->createQueryBuilder('m')
+            ->select('COUNT(m.id)')
+            ->andWhere('m.manager = :manager')
+            ->setParameter('manager', $manager);
+
+        if ($state !== null) {
+            $qb->andWhere('m.state = :state')
+                ->setParameter('state', $state);
+        }
+
+        return (int) $qb->getQuery()->getSingleScalarResult();
+    }
 }
