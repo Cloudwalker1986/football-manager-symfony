@@ -91,6 +91,7 @@ message:
         table:
             date: "Datum"
             sender: "Absender"
+            sender_name: 'System'
             subject: "Betreff"
             status: "Status"
             no_subject: "Kein Betreff"
