@@ -83,4 +83,26 @@ profile:
         success: "Ihr Konto wurde erfolgreich gelöscht."
         invalid_csrf: "Ungültiges CSRF-Token."
     cancel: "Abbrechen"
+message:
+    list:
+        title: "Nachrichten"
+        card_title: "Meine Nachrichten"
+        no_messages: "Keine Nachrichten gefunden."
+        table:
+            date: "Datum"
+            sender: "Absender"
+            sender_name: 'System'
+            subject: "Betreff"
+            status: "Status"
+            no_subject: "Kein Betreff"
+        pagination:
+            previous: "Zurück"
+            next: "Weiter"
+        filter:
+            all: "Alle"
+            unread: "Ungelesen"
+            read: "Gelesen"
+    state:
+        read: "Gelesen"
+        unread: "Ungelesen"
 
