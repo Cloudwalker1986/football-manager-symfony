@@ -8,4 +8,15 @@ enum State: string
 {
     case READ = 'read';
     case UNREAD = 'unread';
+
+    public function isRead(): bool
+    {
+        return $this === self::READ;
+    }
+
+    public function isUnread(): bool
+    {
+        return $this === self::UNREAD;
+
+    }
 }

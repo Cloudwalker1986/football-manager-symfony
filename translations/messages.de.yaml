@@ -105,4 +105,11 @@ message:
     state:
         read: "Gelesen"
         unread: "Ungelesen"
-
+    detail:
+        title: "Nachrichtendetails"
+        from: "Von"
+        date: "Datum"
+        select_message: "Wählen Sie eine Nachricht aus, um deren Inhalt anzuzeigen"
+        error_loading: "Nachricht konnte nicht geladen werden. Bitte versuchen Sie es erneut."
+common:
+  loading: 'Lädt...'
