@@ -41,8 +41,11 @@
             <div class="col-lg-7">
                 <div class="card" id="message-detail-card" style="display: none; min-height: 200px;">
                     <div id="message-detail-container">
-                        <div class="card-header">
+                        <div class="card-header d-flex justify-content-between align-items-center">
                             <h5 class="card-title mb-0" id="message-detail-subject">{{ 'message.detail.title'|trans }}</h5>
+                            <button id="mark-unread-btn" class="btn btn-sm btn-outline-warning" style="display: none;">
+                                {{ 'message.detail.mark_unread'|trans }}
+                            </button>
                         </div>
                         <div class="card-body">
                             <div class="mb-3">
@@ -75,8 +78,10 @@
         document.addEventListener('DOMContentLoaded', () => {
             initMessageList({
                 viewUrlTemplate: '{{ path('app_message_view', {uuid: '__UUID__'}) }}',
+                unreadUrlTemplate: '{{ path('app_message_unread', {uuid: '__UUID__'}) }}',
                 translations: {
                     read: '{{ 'message.state.read'|trans }}',
+                    unread: '{{ 'message.state.unread'|trans }}',
                     noSubject: '{{ 'message.list.table.no_subject'|trans }}',
                     defaultSender: '{{ 'message.list.table.sender_name.default'|trans }}',
                     errorLoading: '{{ 'message.detail.error_loading'|trans }}'

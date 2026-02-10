@@ -28,6 +28,9 @@ return [
     'message_list' => [
         'path' => './assets/message/overview.js',
     ],
+    'unread_count' => [
+        'path' => './assets/message/unread-count.js',
+    ],
     'jquery' => [
         'version' => '4.0.0',
     ],
