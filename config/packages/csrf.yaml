@@ -9,3 +9,4 @@ framework:
             - submit
             - authenticate
             - logout
+            - app_message_unread

@@ -1,4 +1,5 @@
 import $ from 'jquery';
+import { updateUnreadCount } from 'unread_count';
 
 export const initMessageList = (config) => {
     const $containerContent = $('#message-container-content');
@@ -32,7 +33,7 @@ export const initMessageList = (config) => {
             .on('click', '.message-row', function() {
             const $row = $(this);
             const uuid = $row.data('message-uuid');
-            const state = $row.data('message-state');
+            let state = $row.data('message-state');
 
             // UI Updates
             $('.message-row').removeClass('table-active');
@@ -54,6 +55,39 @@ export const initMessageList = (config) => {
                 $('#message-detail-sender').text(data.sender || translations.defaultSender);
                 $('#message-detail-date').text(data.createdAt);
                 $('#message-detail-content').text(data.message);
+
+                const $markUnreadBtn = $('#mark-unread-btn');
+                if (data.state === 'read') {
+                    $markUnreadBtn.show().off('click').on('click', function() {
+                        const unreadUrl = config.unreadUrlTemplate.replace('__UUID__', uuid);
+                        showSpinner();
+                        $.ajax({
+                            url: unreadUrl,
+                            method: 'POST',
+                            dataType: 'json',
+                            headers: {
+                                'X-CSRF-TOKEN': config.csrfToken
+                            }
+                        }).done((unreadData) => {
+                            const $badge = $row.find('.message-state-badge');
+                            if ($badge.length) {
+                                $badge.removeClass('bg-success').addClass('bg-warning').text(translations.unread);
+                            }
+                            $row.addClass('fw-bold');
+                            $row.data('message-state', 'unread');
+                            $row.attr('data-message-state', 'unread');
+                            $markUnreadBtn.hide();
+                            updateUnreadCount();
+                        }).fail((xhr, status, error) => {
+                            console.error('Error marking as unread:', error);
+                        }).always(() => {
+                            hideSpinner();
+                        });
+                    });
+                } else {
+                    $markUnreadBtn.hide();
+                }
+
                 if (state === 'unread') {
                     const $badge = $row.find('.message-state-badge');
                     if ($badge.length) {
@@ -63,6 +97,8 @@ export const initMessageList = (config) => {
                     $row.data('message-state', 'read');
                     // Also update the DOM attribute if needed for CSS selectors
                     $row.attr('data-message-state', 'read');
+
+                    updateUnreadCount();
                 }
             }).fail((xhr, status, error) => {
                 console.error('Error loading message:', error);

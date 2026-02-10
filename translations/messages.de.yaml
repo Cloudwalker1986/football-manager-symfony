@@ -110,6 +110,7 @@ message:
         from: "Von"
         date: "Datum"
         select_message: "Wählen Sie eine Nachricht aus, um deren Inhalt anzuzeigen"
+        mark_unread: "Als ungelesen markieren"
         error_loading: "Nachricht konnte nicht geladen werden. Bitte versuchen Sie es erneut."
 common:
   loading: 'Lädt...'
