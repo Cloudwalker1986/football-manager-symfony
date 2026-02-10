@@ -28,6 +28,10 @@
                         <a href="{{ path('app_message_list', {'_locale': app.request.locale}) }}" class="pc-link">
                             <span class="pc-micon"><i class="ti ti-mail"></i></span>
                             <span class="pc-mtext">{{ 'message.list.title'|trans }}</span>
+                            {% set unread_count = unread_message_count() %}
+                            {% if unread_count > 0 %}
+                                <span class="pc-badge">{{ unread_count }}</span>
+                            {% endif %}
                         </a>
                     </li>
 
@@ -171,4 +175,12 @@
             </div>
         </div>
     </footer>
+    <script type="module">
+        import { initUnreadCount } from 'unread_count';
+        document.addEventListener('DOMContentLoaded', () => {
+            initUnreadCount({
+                url: '{{ path('app_message_unread_count') }}',
+            });
+        });
+    </script>
 {% endblock %}
