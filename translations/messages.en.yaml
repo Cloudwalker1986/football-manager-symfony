@@ -111,6 +111,7 @@ message:
         from: "From"
         date: "Date"
         select_message: "Select a message to view its content"
+        mark_unread: "Mark as unread"
         error_loading: "Failed to load message. Please try again."
 common:
     loading: 'Loading...'

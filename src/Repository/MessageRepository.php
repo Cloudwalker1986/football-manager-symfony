@@ -4,13 +4,18 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
+use App\Entity\Manager;
 use App\Entity\Message;
+use App\Manager\Module\Message\Enum\State;
 use App\Repository\Exception\InvalidEntityArgumentTypeException;
 use App\Repository\Interface\CreateEntityInterface;
+use App\Repository\Interface\Message\UnreadMessageCountInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
-class MessageRepository extends ServiceEntityRepository implements CreateEntityInterface
+class MessageRepository extends ServiceEntityRepository implements
+    CreateEntityInterface,
+    UnreadMessageCountInterface
 {
     public function __construct(ManagerRegistry $registry)
     {
@@ -65,17 +70,14 @@ class MessageRepository extends ServiceEntityRepository implements CreateEntityI
         return $qb->getQuery()->getResult();
     }
 
-    public function countByManager(\App\Entity\Manager $manager, ?\App\Manager\Module\Message\Enum\State $state = null): int
+    public function getUnreadMessageCount(Manager $manager): int
     {
         $qb = $this->createQueryBuilder('m')
             ->select('COUNT(m.id)')
-            ->andWhere('m.manager = :manager')
+            ->where('m.manager = :manager')
+            ->andWhere('m.state = :state')
+            ->setParameter('state', State::UNREAD)
             ->setParameter('manager', $manager);
-
-        if ($state !== null) {
-            $qb->andWhere('m.state = :state')
-                ->setParameter('state', $state);
-        }
 
         return (int) $qb->getQuery()->getSingleScalarResult();
     }
