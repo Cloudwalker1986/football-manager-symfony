@@ -58,7 +58,7 @@ export const updateUnreadCount = () => {
         cache: false,
         dataType: 'json'
     }).done((data) => {
-        if (!data.hasOwnProperty('unreadCount')) {
+        if (!('unreadCount' in data)) {
             return;
         }
 
