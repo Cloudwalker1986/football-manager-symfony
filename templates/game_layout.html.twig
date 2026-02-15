@@ -180,6 +180,7 @@
         document.addEventListener('DOMContentLoaded', () => {
             initUnreadCount({
                 url: '{{ path('app_message_unread_count') }}',
+                initialCount: {{ unread_count }}
             });
         });
     </script>
