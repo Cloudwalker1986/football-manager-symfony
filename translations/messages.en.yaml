@@ -112,6 +112,8 @@ message:
         date: "Date"
         select_message: "Select a message to view its content"
         mark_unread: "Mark as unread"
+        delete: "Delete"
+        delete_confirm: "Are you sure you want to delete this message?"
         error_loading: "Failed to load message. Please try again."
 common:
     loading: 'Loading...'

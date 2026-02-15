@@ -5,23 +5,25 @@ declare(strict_types=1);
 namespace App\Controller\Message;
 
 use App\Controller\BaseController;
-use App\Manager\Module\Message\Enum\State;
+use App\Manager\Framework\Command\CommandBus;
+use App\Manager\Module\Message\Command\DeleteMessage\DeleteMessageCommand;
 use App\Repository\MessageRepository;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\Security\Csrf\CsrfToken;
 use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[IsGranted('ROLE_USER')]
-class UnreadController extends BaseController
+class DeleteController extends BaseController
 {
-    #[Route('/messages/{uuid}/unread', name: 'app_message_unread', methods: ['POST'])]
-    public function markAsUnread(
+    #[Route('/messages/{uuid}/delete', name: 'app_message_delete', methods: ['POST'])]
+    public function delete(
         string $uuid,
+        Request $request,
         MessageRepository $messageRepository,
+        CommandBus $commandBus
     ): Response
     {
         $manager = $this->getManager();
@@ -37,17 +39,11 @@ class UnreadController extends BaseController
         }
 
         if ($message->getManager()->getId() !== $manager->getId()) {
-            return new JsonResponse(['error' => 'You are not authorized to modify this message.'], Response::HTTP_FORBIDDEN);
+            return new JsonResponse(['error' => 'You are not authorized to delete this message.'], Response::HTTP_FORBIDDEN);
         }
 
-        if ($message->getState()->isRead()) {
-            $message->setState(State::UNREAD);
-            $messageRepository->persist($message)->flush();
-        }
+        $commandBus->handle(new DeleteMessageCommand($uuid));
 
-        return new JsonResponse([
-            'uuid' => $message->getUuid(),
-            'state' => $message->getState()->value,
-        ]);
+        return new JsonResponse(['success' => true]);
     }
 }

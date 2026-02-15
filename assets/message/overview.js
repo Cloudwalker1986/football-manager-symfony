@@ -64,14 +64,11 @@ export const initMessageList = (config) => {
                         $.ajax({
                             url: unreadUrl,
                             method: 'POST',
-                            dataType: 'json',
-                            headers: {
-                                'X-CSRF-TOKEN': config.csrfToken
-                            }
+                            dataType: 'json'
                         }).done((unreadData) => {
                             const $badge = $row.find('.message-state-badge');
                             if ($badge.length) {
-                                $badge.removeClass('bg-success').addClass('bg-warning').text(translations.unread);
+                                $badge.removeClass('bg-success').addClass('bg-info').text(translations.unread);
                             }
                             $row.addClass('fw-bold');
                             $row.data('message-state', 'unread');
@@ -88,10 +85,32 @@ export const initMessageList = (config) => {
                     $markUnreadBtn.hide();
                 }
 
+                const $deleteBtn = $('#delete-message-btn');
+                $deleteBtn.show().off('click').on('click', function() {
+                    if (confirm(translations.confirmDelete)) {
+                        const deleteUrl = config.deleteUrlTemplate.replace('__UUID__', uuid);
+                        showSpinner();
+                        $.ajax({
+                            url: deleteUrl,
+                            method: 'POST',
+                            dataType: 'json'
+                        }).done(() => {
+                            $row.remove();
+                            $detailCard.hide();
+                            $placeholder.show();
+                            updateUnreadCount();
+                        }).fail((xhr, status, error) => {
+                            console.error('Error deleting message:', error);
+                        }).always(() => {
+                            hideSpinner();
+                        });
+                    }
+                });
+
                 if (state === 'unread') {
                     const $badge = $row.find('.message-state-badge');
                     if ($badge.length) {
-                        $badge.removeClass('bg-warning').addClass('bg-success').text(translations.read);
+                        $badge.removeClass('bg-info').addClass('bg-success').text(translations.read);
                     }
                     $row.removeClass('fw-bold');
                     $row.data('message-state', 'read');

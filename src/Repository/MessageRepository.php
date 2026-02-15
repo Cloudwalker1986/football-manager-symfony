@@ -9,13 +9,18 @@ use App\Entity\Message;
 use App\Manager\Module\Message\Enum\State;
 use App\Repository\Exception\InvalidEntityArgumentTypeException;
 use App\Repository\Interface\CreateEntityInterface;
+use App\Repository\Interface\DeleteEntityInterface;
+use App\Repository\Interface\Message\MessageFinderInterface;
 use App\Repository\Interface\Message\UnreadMessageCountInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Uid\Uuid;
 
 class MessageRepository extends ServiceEntityRepository implements
     CreateEntityInterface,
-    UnreadMessageCountInterface
+    UnreadMessageCountInterface,
+    DeleteEntityInterface,
+    MessageFinderInterface
 {
     public function __construct(ManagerRegistry $registry)
     {
@@ -46,14 +51,28 @@ class MessageRepository extends ServiceEntityRepository implements
         return $this;
     }
 
+    public function delete(object $entity): static
+    {
+        if (!$entity instanceof Message) {
+            throw new InvalidEntityArgumentTypeException(
+                Message::class,
+                get_class($entity)
+            );
+        }
+
+        $this->getEntityManager()->remove($entity);
+
+        return $this;
+    }
+
     /**
      * @return Message[]
      */
     public function findByManagerPaginated(
-        \App\Entity\Manager $manager,
+        Manager $manager,
         int $limit = 10,
         int $offset = 0,
-        ?\App\Manager\Module\Message\Enum\State $state = null
+        ?State $state = null
     ): array {
         $qb = $this->createQueryBuilder('m')
             ->andWhere('m.manager = :manager')
@@ -80,5 +99,10 @@ class MessageRepository extends ServiceEntityRepository implements
             ->setParameter('manager', $manager);
 
         return (int) $qb->getQuery()->getSingleScalarResult();
+    }
+
+    public function byUuid(Uuid $uuid): ?Message
+    {
+        return $this->findOneBy(['uuid' => $uuid->toString()]);
     }
 }

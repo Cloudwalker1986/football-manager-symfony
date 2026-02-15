@@ -25,6 +25,7 @@ services:
     App\Repository\Interface\User\ResetPasswordInterface $resetPasswordRequestRepository: '@App\Repository\ResetPasswordRequestRepository'
     App\Repository\Interface\User\UserFinderInterface: '@App\Repository\UserRepository'
     App\Repository\Interface\Message\UnreadMessageCountInterface: '@App\Repository\MessageRepository'
+    App\Repository\Interface\DeleteEntityInterface: '@App\Repository\MessageRepository'
 
     App\IntegrationTests\FixtureProvider\:
         resource: '../tests/Integration/FixtureProvider/'
