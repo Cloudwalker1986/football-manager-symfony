@@ -15,9 +15,9 @@ export const initUnreadCount = (config) => {
     if (cachedCount !== null) {
         // Use cached count, no need to fetch from server
         updateBadgeDisplay(parseInt(cachedCount, 10));
-    } else if (config.initialCount !== undefined) {
+    } else if (config.hasOwnProperty('initialCount')) {
         // Store the server-rendered initial count and display it
-        sessionStorage.setItem(STORAGE_KEY, config.initialCount.toString());
+        sessionStorage.setItem(STORAGE_KEY, String(config.initialCount));
         updateBadgeDisplay(config.initialCount);
     } else {
         // Fallback: fetch from server if no cache or initial count
@@ -55,7 +55,7 @@ export const updateUnreadCount = () => {
         }
 
         // Update sessionStorage cache
-        sessionStorage.setItem(STORAGE_KEY, data.unreadCount.toString());
+        sessionStorage.setItem(STORAGE_KEY, String(data.unreadCount));
         
         // Update the badge display
         updateBadgeDisplay(data.unreadCount);
