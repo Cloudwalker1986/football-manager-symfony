@@ -15,7 +15,7 @@ export const initUnreadCount = (config) => {
     if (cachedCount !== null) {
         // Use cached count, no need to fetch from server
         updateBadgeDisplay(parseInt(cachedCount, 10));
-    } else if (config.hasOwnProperty('initialCount')) {
+    } else if ('initialCount' in config) {
         // Store the server-rendered initial count and display it
         sessionStorage.setItem(STORAGE_KEY, String(config.initialCount));
         updateBadgeDisplay(config.initialCount);
@@ -26,13 +26,21 @@ export const initUnreadCount = (config) => {
 };
 
 const updateBadgeDisplay = (count) => {
+    // Ensure count is a valid number
+    const numericCount = typeof count === 'number' ? count : parseInt(count, 10);
+    
+    if (isNaN(numericCount)) {
+        console.error('Invalid count value:', count);
+        return;
+    }
+    
     const $badge = $('.pc-sidebar .pc-link[href*="messages"] .pc-badge');
     
-    if (count > 0) {
+    if (numericCount > 0) {
         if ($badge.length) {
-            $badge.text(count);
+            $badge.text(numericCount);
         } else {
-            $('.pc-sidebar .pc-link[href*="messages"]').append(`<span class="pc-badge">${count}</span>`);
+            $('.pc-sidebar .pc-link[href*="messages"]').append(`<span class="pc-badge">${numericCount}</span>`);
         }
     } else {
         $badge.remove();
