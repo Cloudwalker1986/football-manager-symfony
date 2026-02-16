@@ -105,4 +105,16 @@ class MessageRepository extends ServiceEntityRepository implements
     {
         return $this->findOneBy(['uuid' => $uuid->toString()]);
     }
+
+    /**
+     * @return Message[]
+     */
+    public function findOlderThan(\DateTimeImmutable $date): array
+    {
+        return $this->createQueryBuilder('m')
+            ->andWhere('m.createdAt < :date')
+            ->setParameter('date', $date)
+            ->getQuery()
+            ->getResult();
+    }
 }
