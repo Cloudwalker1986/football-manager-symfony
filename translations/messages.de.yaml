@@ -111,6 +111,8 @@ message:
         date: "Datum"
         select_message: "Wählen Sie eine Nachricht aus, um deren Inhalt anzuzeigen"
         mark_unread: "Als ungelesen markieren"
+        delete: "Löschen"
+        delete_confirm: "Sind Sie sicher, dass Sie diese Nachricht löschen möchten?"
         error_loading: "Nachricht konnte nicht geladen werden. Bitte versuchen Sie es erneut."
 common:
   loading: 'Lädt...'

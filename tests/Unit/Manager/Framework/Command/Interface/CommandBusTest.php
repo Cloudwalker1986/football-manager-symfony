@@ -26,7 +26,7 @@ class CommandBusTest extends KernelTestCase
         $property = $classReflection->getProperty('handlers');
 
         self::assertCount(
-            3,
+            4,
             $property->getValue($commandBus),
             'Handlers does not match the expected count'
         );

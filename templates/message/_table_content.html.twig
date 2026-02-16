@@ -21,7 +21,7 @@
                         <td>{{ message.sender.name|default('message.list.table.sender_name.default'|trans) }}</td>
                         <td>{{ message.createdAt|date('Y-m-d H:i') }}</td>
                         <td>
-                            <span class="badge message-state-badge {{ message.state.value == 'read' ? 'bg-success' : 'bg-warning' }}">
+                            <span class="badge message-state-badge {{ message.state.value == 'read' ? 'bg-success' : 'bg-info' }}">
                                 {{ ('message.state.' ~ message.state.value)|trans }}
                             </span>
                         </td>

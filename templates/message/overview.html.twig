@@ -43,9 +43,15 @@
                     <div id="message-detail-container">
                         <div class="card-header d-flex justify-content-between align-items-center">
                             <h5 class="card-title mb-0" id="message-detail-subject">{{ 'message.detail.title'|trans }}</h5>
-                            <button id="mark-unread-btn" class="btn btn-sm btn-outline-warning" style="display: none;">
-                                {{ 'message.detail.mark_unread'|trans }}
-                            </button>
+                            <div class="btn-group">
+                                <button id="mark-unread-btn" class="btn btn-sm btn-outline-info" style="display: none;">
+                                    {{ 'message.detail.mark_unread'|trans }}
+                                </button>
+
+                                <button id="delete-message-btn" class="btn btn-sm btn-outline-danger" style="display: none;">
+                                    {{ 'message.detail.delete'|trans }}
+                                </button>
+                            </div>
                         </div>
                         <div class="card-body">
                             <div class="mb-3">
@@ -75,17 +81,20 @@
     {{ parent() }}
     <script type="module">
         import { initMessageList } from 'message_list';
+
         document.addEventListener('DOMContentLoaded', () => {
             initMessageList({
                 viewUrlTemplate: '{{ path('app_message_view', {uuid: '__UUID__'}) }}',
                 unreadUrlTemplate: '{{ path('app_message_unread', {uuid: '__UUID__'}) }}',
-                csrfToken: '{{ csrf_token('app_message_unread') }}',
+                deleteUrlTemplate: '{{ path('app_message_delete', {uuid: '__UUID__'}) }}',
+                unreadCsrfToken: '{{ csrf_token('app_message_unread') }}',
                 translations: {
                     read: '{{ 'message.state.read'|trans }}',
                     unread: '{{ 'message.state.unread'|trans }}',
                     noSubject: '{{ 'message.list.table.no_subject'|trans }}',
                     defaultSender: '{{ 'message.list.table.sender_name.default'|trans }}',
-                    errorLoading: '{{ 'message.detail.error_loading'|trans }}'
+                    errorLoading: '{{ 'message.detail.error_loading'|trans }}',
+                    confirmDelete: '{{ 'message.detail.delete_confirm'|trans }}'
                 }
             });
         });

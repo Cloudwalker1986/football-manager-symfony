@@ -98,6 +98,10 @@
             "php bin/console do:mi:mi -e test -n",
             "php bin/console hautelook:fixtures:load -e test -n",
             "php vendor/bin/phpunit -c phpunit.dist.xml --testsuite Integration"
+        ],
+        "tests": [
+            "composer unit-tests",
+            "composer integration-tests"
         ]
     },
     "conflict": {
