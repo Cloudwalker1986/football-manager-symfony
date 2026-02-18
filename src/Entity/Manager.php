@@ -12,6 +12,7 @@ use App\Repository\ManagerRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
+use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
@@ -36,6 +37,9 @@ class Manager implements IdentifierInterface, DateTimeStamperInterface
     #[OneToOne(targetEntity: User::class, inversedBy: 'manager')]
     #[JoinColumn(nullable: false)]
     private ?User $user = null;
+
+    #[ORM\OneToOne(targetEntity: Club::class, mappedBy: 'manager')]
+    private ?Club $club = null;
 
     #[OneToMany(targetEntity: ManagerHistory::class, mappedBy: 'manager')]
     #[OrderBy(['createdAt' => 'DESC'])]
@@ -66,6 +70,18 @@ class Manager implements IdentifierInterface, DateTimeStamperInterface
     public function setUser(?User $user): Manager
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getClub(): ?Club
+    {
+        return $this->club;
+    }
+
+    public function setClub(?Club $club): static
+    {
+        $this->club = $club;
 
         return $this;
     }
