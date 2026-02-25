@@ -99,9 +99,17 @@
             "php bin/console hautelook:fixtures:load -e test -n",
             "php vendor/bin/phpunit -c phpunit.dist.xml --testsuite Integration"
         ],
+        "functional-tests": [
+            "php bin/console doctrine:database:drop -e test --if-exists --force",
+            "php bin/console doctrine:database:create -e test --if-not-exists -n",
+            "php bin/console do:mi:mi -e test -n",
+            "php bin/console hautelook:fixtures:load -e test -n",
+            "php vendor/bin/phpunit -c phpunit.dist.xml --testsuite Functional"
+        ],
         "tests": [
             "composer unit-tests",
-            "composer integration-tests"
+            "composer integration-tests",
+            "composer functional-tests"
         ]
     },
     "conflict": {

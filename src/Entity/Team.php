@@ -28,6 +28,10 @@ class Team implements IdentifierInterface, DateTimeStamperInterface
     #[ORM\JoinColumn(nullable: false)]
     private ?Club $club = null;
 
+    #[ORM\ManyToOne(targetEntity: League::class)]
+    #[ORM\JoinColumn(nullable: true)]
+    private ?League $league = null;
+
     public function getType(): ?TeamType
     {
         return $this->type;
@@ -48,6 +52,18 @@ class Team implements IdentifierInterface, DateTimeStamperInterface
     public function setClub(?Club $club): static
     {
         $this->club = $club;
+
+        return $this;
+    }
+
+    public function getLeague(): ?League
+    {
+        return $this->league;
+    }
+
+    public function setLeague(?League $league): static
+    {
+        $this->league = $league;
 
         return $this;
     }

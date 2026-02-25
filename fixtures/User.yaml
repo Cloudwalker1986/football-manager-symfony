@@ -1,20 +1,17 @@
 App\Entity\User:
     user_1:
-        id: 1
         uuid: 'd8699bc3-2118-4443-bac0-e4266c059850'
         emailAddress: 'manager@example.com'
         password: <hashPassword('password')>>
         status: <statusVerified()>
         manager: '@manager_1'
     user_2:
-        id: 2
         uuid: 'eda858ff-226e-4140-b336-5a0eca5fc050'
         emailAddress: 'manager-2@example.com'
         password: <hashPassword('password')>>
-        status: <statusNotVerified()>
+        status: <statusVerified()>
         manager: '@manager_2'
     user_3:
-        id: 3
         uuid: '190ee115-41fa-4255-8e23-c34a58f7463d'
         emailAddress: 'deleteable-manager-3@example.com'
         password: <hashPassword('password')>>

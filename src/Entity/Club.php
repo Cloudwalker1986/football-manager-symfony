@@ -8,6 +8,7 @@ use App\Entity\Interface\DateTimeStamperInterface;
 use App\Entity\Interface\IdentifierInterface;
 use App\Entity\Trait\DateTimeStamper;
 use App\Entity\Trait\Identifier;
+use App\Manager\Module\Club\Validator\Constraints\UniqueClubName;
 use App\Repository\ClubRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -17,12 +18,14 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: ClubRepository::class)]
 #[ORM\Table(name: 'club')]
 #[ORM\UniqueConstraint(name: 'unique_uuid', fields: ['uuid'])]
+#[ORM\UniqueConstraint(name: 'unique_name', fields: ['name'])]
 #[ORM\HasLifecycleCallbacks]
 class Club implements IdentifierInterface, DateTimeStamperInterface
 {
     use Identifier;
     use DateTimeStamper;
 
+    #[UniqueClubName]
     #[ORM\Column(type: Types::STRING, length: 255)]
     private ?string $name = null;
 

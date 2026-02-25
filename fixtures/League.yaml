@@ -1,0 +1,16 @@
+App\Entity\League:
+    league_1:
+        uuid: '660e8400-e29b-41d4-a716-446655440001'
+        name: 'Test League'
+        level: 1
+        association: '@association_1'
+    league_full:
+        uuid: '660e8400-e29b-41d4-a716-446655440002'
+        name: 'Full League'
+        level: 1
+        association: '@association_2'
+    league_unique:
+        uuid: '660e8400-e29b-41d4-a716-446655440003'
+        name: 'Unique League'
+        level: 1
+        association: '@association_3'

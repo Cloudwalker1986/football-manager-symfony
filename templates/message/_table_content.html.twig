@@ -17,7 +17,7 @@
                         data-message-uuid="{{ message.uuid }}"
                         data-message-state="{{ message.state.value }}"
                         style="cursor: pointer;">
-                        <td>{{ message.subject|default('message.list.table.no_subject'|trans) }}</td>
+                        <td>{{ message.subject|trans|default('message.list.table.no_subject'|trans) }}</td>
                         <td>{{ message.sender.name|default('message.list.table.sender_name.default'|trans) }}</td>
                         <td>{{ message.createdAt|date('Y-m-d H:i') }}</td>
                         <td>

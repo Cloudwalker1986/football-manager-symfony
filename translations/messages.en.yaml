@@ -117,3 +117,45 @@ message:
         error_loading: "Failed to load message. Please try again."
 common:
     loading: 'Loading...'
+    next: "Next"
+    back: "Back"
+wizard:
+    club:
+        title: "Create Your Club"
+        breadcrumb: "Create Club"
+        card_title: "Wizard"
+        sidebar_link: "Create Club"
+        step1:
+            title: "Step 1: Select Association"
+            description: "Choose the football association your club will belong to."
+            select_placeholder: "Select Association..."
+        step2:
+            title: "Step 2: Select League"
+            description: "Choose an available league in your selected association."
+            select_placeholder: "Select League..."
+            team_count: "%count%/16 teams"
+            level: "league %level%"
+        step3:
+            title: "Step 3: Club Specification"
+            description: "Provide the details for your new club."
+            club_name_label: "Club Name"
+            club_name_placeholder: "e.g. London City FC"
+            short_name_label: "Short Name"
+            short_name_placeholder: "e.g. London City"
+            submit: "Create Club"
+        errors:
+            association_required: "This field is required."
+            association_not_found: "Association not found."
+            league_required: "This field is required."
+            league_not_found: "League not found."
+            league_wrong_association: "League does not belong to the selected association."
+            league_full: "This league is already full."
+            select_association_first: "Please select an association first."
+            select_league_first: "Please select a league first."
+            failed_to_create: "Failed to create club."
+            name_already_exists: "A club with this name already exists."
+        creation:
+            message:
+                subject: "Team creation"
+                title: "Welcome to your new team!"
+                body: "Congratulations! Your club %club_name% has been successfully created. A cadre has been automatically assigned to your first team. You can now take a look at your players and start setting up your squad for the upcoming matches. Good luck, Manager!"

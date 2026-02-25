@@ -40,6 +40,15 @@
                         <i class="ti ti-dashboard"></i>
                     </li>
 
+                    {% if app.user.manager and app.user.manager.club is null %}
+                        <li class="pc-item">
+                            <a href="{{ path('app_wizard_club', {'_locale': app.request.locale}) }}" class="pc-link">
+                                <span class="pc-micon"><i class="ti ti-plus"></i></span>
+                                <span class="pc-mtext">{{ 'wizard.club.sidebar_link'|trans }}</span>
+                            </a>
+                        </li>
+                    {% endif %}
+
                     <li class="pc-item">
                         <a href="#" class="pc-link">
                             <span class="pc-micon"><i class="ti ti-users"></i></span>

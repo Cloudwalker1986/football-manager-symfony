@@ -45,4 +45,15 @@ class LeagueRepository extends ServiceEntityRepository implements CreateEntityIn
 
         return $this;
     }
+
+    public function countTeams(League $league): int
+    {
+        return (int) $this->getEntityManager()->createQueryBuilder()
+            ->select('COUNT(t.id)')
+            ->from(\App\Entity\Team::class, 't')
+            ->where('t.league = :league')
+            ->setParameter('league', $league)
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
 }

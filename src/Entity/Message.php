@@ -29,6 +29,9 @@ class Message
     #[Column(type: Types::TEXT, nullable: false)]
     private ?string $message = null;
 
+    #[Column(type: Types::JSON, nullable: true)]
+    private ?array $parameters = null;
+
     #[ManyToOne(targetEntity: Manager::class)]
     #[JoinColumn(nullable: false)]
     private Manager $manager;
@@ -98,6 +101,18 @@ class Message
     public function setSubject(?string $subject): static
     {
         $this->subject = $subject;
+        return $this;
+    }
+
+    public function getParameters(): ?array
+    {
+        return $this->parameters;
+    }
+
+    public function setParameters(?array $parameters): static
+    {
+        $this->parameters = $parameters;
+
         return $this;
     }
 }
