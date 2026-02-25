@@ -1,0 +1,16 @@
+App\Entity\FootballAssociation:
+    association_1:
+        uuid: '550e8400-e29b-41d4-a716-446655440000'
+        name: 'Test FA'
+        code: 'TFA'
+        countryCode: 'TS'
+    association_2:
+        uuid: '550e8400-e29b-41d4-a716-446655440002'
+        name: 'Full FA'
+        code: 'FFA'
+        countryCode: 'TS'
+    association_3:
+        uuid: '550e8400-e29b-41d4-a716-446655440003'
+        name: 'Unique FA'
+        code: 'UFA'
+        countryCode: 'TS'

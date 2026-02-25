@@ -1,13 +1,10 @@
 App\Entity\Manager:
     manager_1:
-        id: 1
         uuid: '824cc2c3-a079-4e65-83ca-d9c98a8566f3'
-        name: 'Test Manager 1'
+        name: 'Wizard Manager'
     manager_2:
-        id: 2
         uuid: '4105b686-1eb7-4bc1-83cf-f50218876d3c'
-        name: 'Test Manager 2'
+        name: 'Full Manager'
     manager_3:
-        id: 3
         uuid: '9cce543f-2d39-4a34-a230-459d58e0884c'
-        name: 'Test Manager Deletable'
+        name: 'New Manager'

@@ -116,3 +116,45 @@ message:
         error_loading: "Nachricht konnte nicht geladen werden. Bitte versuchen Sie es erneut."
 common:
   loading: 'Lädt...'
+  next: "Weiter"
+  back: "Zurück"
+wizard:
+  club:
+    title: "Erstelle deinen Club"
+    breadcrumb: "Club erstellen"
+    card_title: "Assistent"
+    sidebar_link: "Club erstellen"
+    step1:
+      title: "Schritt 1: Verband wählen"
+      description: "Wähle den Fußballverband, dem dein Club angehören soll."
+      select_placeholder: "Verband wählen..."
+    step2:
+      title: "Schritt 2: Liga wählen"
+      description: "Wähle eine verfügbare Liga in deinem ausgewählten Verband."
+      select_placeholder: "Liga wählen..."
+      team_count: "%count%/16 Teams"
+      level: "Liga %level%"
+    step3:
+      title: "Schritt 3: Club-Details"
+      description: "Gib die Details für deinen neuen Club an."
+      club_name_label: "Clubname"
+      club_name_placeholder: "z.B. London City FC"
+      short_name_label: "Kurzname"
+      short_name_placeholder: "z.B. London City"
+      submit: "Club erstellen"
+    errors:
+      association_required: "Dieses Feld ist erforderlich."
+      association_not_found: "Verband nicht gefunden."
+      league_required: "Dieses Feld ist erforderlich."
+      league_not_found: "Liga nicht gefunden."
+      league_wrong_association: "Die Liga gehört nicht zum ausgewählten Verband."
+      league_full: "Diese Liga ist bereits voll."
+      select_association_first: "Bitte wählen Sie zuerst einen Verband aus."
+      select_league_first: "Bitte wählen Sie zuerst eine Liga aus."
+      failed_to_create: "Club konnte nicht erstellt werden."
+      name_already_exists: "Ein Club mit diesem Namen existiert bereits."
+    creation:
+      message:
+        subject: "Teamerstellung"
+        title: "Willkommen bei deinem neuen Team!"
+        body: "Herzlichen Glückwunsch! Dein Club %club_name% wurde erfolgreich erstellt. Ein Kader wurde deinem Team bereits automatisch zugewiesen. Du kannst dir nun deine Spieler ansehen und mit der Aufstellung für die kommenden Spiele beginnen. Viel Erfolg, Manager!"
