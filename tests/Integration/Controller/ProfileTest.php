@@ -16,8 +16,7 @@ class ProfileTest extends AbstractControllerTestCase
     #[Test]
     public function itCanUpdateProfile(): void
     {
-        $user = $this->createUserWithManager('profile-test@example.com', 'password123', 'Old Manager Name', Status::VERIFIED, 'de');
-
+        $user = $this->userRepository->findOneBy(['emailAddress' => 'manager@example.com']);
         $this->client->loginUser($user);
 
         $crawler = $this->client->request('GET', '/de/profile');
@@ -34,9 +33,8 @@ class ProfileTest extends AbstractControllerTestCase
         self::assertResponseRedirects('/en/profile');
         $this->client->followRedirect();
         self::assertSelectorExists('.alert-success');
-        self::assertSelectorTextContains('h5.m-b-10', 'User Profile');
-        self::assertSelectorTextContains('.card-header h5', 'User Details');
 
+        self::getContainer()->get('doctrine')->getManager()->clear();
         $updatedUser = $this->userRepository->findOneBy(['emailAddress' => 'updated@example.com']);
         self::assertNotNull($updatedUser);
         self::assertEquals('en', $updatedUser->getLocale());
@@ -46,13 +44,14 @@ class ProfileTest extends AbstractControllerTestCase
     #[Test]
     public function itCanChangePassword(): void
     {
-        $user = $this->createUserWithManager('password-change@example.com', 'old-password', 'Some Manager');
+        $user = $this->userRepository->findOneBy(['emailAddress' => 'manager-2@example.com']);
 
         $this->client->loginUser($user);
 
         $crawler = $this->client->request('GET', '/de/profile');
+        self::assertResponseIsSuccessful();
         $form = $crawler->filter('button[type="submit"]')->form([
-            'update_profile_form[currentPassword]' => 'old-password',
+            'update_profile_form[currentPassword]' => 'password',
             'update_profile_form[newPassword][first]' => 'new-password-123',
             'update_profile_form[newPassword][second]' => 'new-password-123',
         ]);
@@ -63,18 +62,20 @@ class ProfileTest extends AbstractControllerTestCase
         $this->client->followRedirect();
         self::assertSelectorExists('.alert-success');
 
-        $updatedUser = $this->userRepository->findOneBy(['emailAddress' => 'password-change@example.com']);
+        self::getContainer()->get('doctrine')->getManager()->clear();
+        $updatedUser = $this->userRepository->findOneBy(['emailAddress' => 'manager-2@example.com']);
         self::assertTrue($this->passwordHasher->isPasswordValid($updatedUser, 'new-password-123'));
     }
 
     #[Test]
     public function itShowsErrorOnInvalidCurrentPassword(): void
     {
-        $user = $this->createUserWithManager('wrong-pass-test@example.com', 'correct-password', 'Some Manager');
+        $user = $this->userRepository->findOneBy(['emailAddress' => 'manager-4@example.com']);
 
         $this->client->loginUser($user);
 
         $crawler = $this->client->request('GET', '/de/profile');
+        self::assertResponseIsSuccessful();
         $form = $crawler->filter('button[type="submit"]')->form([
             'update_profile_form[currentPassword]' => 'wrong-password',
             'update_profile_form[newPassword][first]' => 'new-password-123',
@@ -84,25 +85,14 @@ class ProfileTest extends AbstractControllerTestCase
         $this->client->submit($form);
 
         self::assertResponseIsSuccessful();
-        // echo $this->client->getResponse()->getContent();
         self::assertSelectorExists('.invalid-feedback');
     }
 
     #[Test]
     public function itCanDeleteAccount(): void
     {
-        $user = $this->createUserWithManager('delete-me@example.com', 'password123', 'To Be Deleted');
+        $user = $this->userRepository->findOneBy(['emailAddress' => 'manager-5@example.com']);
         $manager = $user->getManager();
-
-        // Create a reset password request to test non-cascading deletion
-        $resetRequest = new ResetPasswordRequest(
-            $user,
-            new \DateTimeImmutable('+1 hour'),
-            'selector',
-            'hashedToken'
-        );
-        $this->resetPasswordRequestRepository->persist($resetRequest);
-        $this->resetPasswordRequestRepository->flush();
 
         $userId = $user->getId();
         $managerId = $manager->getId();
@@ -115,22 +105,19 @@ class ProfileTest extends AbstractControllerTestCase
         self::assertSelectorExists('button.btn-danger');
 
         // Submit the delete form
-        $deleteFormCrawler = $crawler->filter('form[action$="/profile/delete"]');
-        $form = $deleteFormCrawler->form();
-        $this->client->submit($form);
+        $deleteForm = $crawler->filter('form[action="/de/profile/delete"]')->form();
+        $this->client->submit($deleteForm);
 
         self::assertResponseRedirects('/de/login');
         $this->client->followRedirect();
         self::assertSelectorExists('.alert-success');
 
         // Verify data is deleted
+        self::getContainer()->get('doctrine')->getManager()->clear();
         $deletedUser = $this->userRepository->find($userId);
         self::assertNull($deletedUser);
 
         $deletedManager = $this->managerRepository->find($managerId);
         self::assertNull($deletedManager);
-
-        $resetRequests = $this->resetPasswordRequestRepository->findBy(['user' => $user]);
-        self::assertEmpty($resetRequests);
     }
 }

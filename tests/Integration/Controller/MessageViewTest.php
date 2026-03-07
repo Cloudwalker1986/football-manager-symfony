@@ -15,7 +15,7 @@ class MessageViewTest extends AbstractControllerTestCase
     #[Test]
     public function itCanViewMessageAndAutomaticallyMarkAsRead(): void
     {
-        $user = $this->createUserWithManager('manager@example.com', 'password');
+        $user = $this->userRepository->findOneBy(['emailAddress' => 'manager@example.com']);
         $manager = $user->getManager();
 
         $message = new Message();

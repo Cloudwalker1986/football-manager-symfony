@@ -1,0 +1,5 @@
+App\Entity\Team:
+    team_full_{1..16}:
+        type: !php/const App\Manager\Module\Team\Enum\TeamType::FIRST_TEAM
+        club: '@club_full_<current()>'
+        league: '@league_full'

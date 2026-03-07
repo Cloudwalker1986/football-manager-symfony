@@ -15,7 +15,7 @@ class MessageDeleteTest extends AbstractControllerTestCase
     #[Test]
     public function itCanDeleteMessage(): void
     {
-        $user = $this->createUserWithManager('manager@example.com', 'password');
+        $user = $this->userRepository->findOneBy(['emailAddress' => 'manager@example.com']);
         $manager = $user->getManager();
 
         $message = new Message();
@@ -49,8 +49,8 @@ class MessageDeleteTest extends AbstractControllerTestCase
     #[Test]
     public function itDeniesAccessToDeleteOtherManagersMessages(): void
     {
-        $user1 = $this->createUserWithManager('manager3@example.com', 'password');
-        $user2 = $this->createUserWithManager('manager4@example.com', 'password');
+        $user1 = $this->createUserWithManager('manager3-unique@example.com', 'password');
+        $user2 = $this->createUserWithManager('manager4-unique@example.com', 'password');
         $manager2 = $user2->getManager();
 
         $message = new Message();

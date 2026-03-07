@@ -38,10 +38,10 @@ class Manager implements IdentifierInterface, DateTimeStamperInterface
     #[JoinColumn(nullable: false)]
     private ?User $user = null;
 
-    #[ORM\OneToOne(targetEntity: Club::class, mappedBy: 'manager')]
+    #[ORM\OneToOne(targetEntity: Club::class, mappedBy: 'manager', cascade: ['remove'])]
     private ?Club $club = null;
 
-    #[OneToMany(targetEntity: ManagerHistory::class, mappedBy: 'manager')]
+    #[OneToMany(targetEntity: ManagerHistory::class, mappedBy: 'manager', cascade: ['remove'])]
     #[OrderBy(['createdAt' => 'DESC'])]
     private Collection $history;
 
