@@ -8,3 +8,31 @@ App\Entity\Manager:
     manager_3:
         uuid: '9cce543f-2d39-4a34-a230-459d58e0884c'
         name: 'New Manager'
+    manager_4:
+        uuid: '4105b686-1eb7-4bc1-83cf-f50218876d41'
+        name: 'Manager 4'
+    manager_5:
+        uuid: '4105b686-1eb7-4bc1-83cf-f50218876d42'
+        name: 'Manager 5'
+    manager_6:
+        uuid: '4105b686-1eb7-4bc1-83cf-f50218876d43'
+        name: 'Manager 6'
+    manager_7:
+        uuid: '4105b686-1eb7-4bc1-83cf-f50218876d44'
+        name: 'Manager 7'
+    manager_8:
+        uuid: '4105b686-1eb7-4bc1-83cf-f50218876d45'
+        name: 'Manager 8'
+    manager_9:
+        uuid: '4105b686-1eb7-4bc1-83cf-f50218876d46'
+        name: 'Manager 9'
+    manager_10:
+        uuid: '4105b686-1eb7-4bc1-83cf-f50218876d47'
+        name: 'Manager 10'
+    manager_{11..21}:
+        uuid: <uuid()>
+        name: 'Manager <current()>'
+
+    manager_unread:
+        uuid: '190ee115-41fa-4255-8e23-c34a58f74640'
+        name: 'Unread Manager'

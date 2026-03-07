@@ -1,19 +1,74 @@
 App\Entity\User:
     user_1:
         uuid: 'd8699bc3-2118-4443-bac0-e4266c059850'
-        emailAddress: 'manager@example.com'
-        password: <hashPassword('password')>>
+        emailAddress: manager<(chr(64))>example.com
+        password: <hashPassword('password')>
         status: <statusVerified()>
         manager: '@manager_1'
     user_2:
         uuid: 'eda858ff-226e-4140-b336-5a0eca5fc050'
-        emailAddress: 'manager-2@example.com'
-        password: <hashPassword('password')>>
+        emailAddress: manager-2<(chr(64))>example.com
+        password: <hashPassword('password')>
         status: <statusVerified()>
         manager: '@manager_2'
     user_3:
         uuid: '190ee115-41fa-4255-8e23-c34a58f7463d'
-        emailAddress: 'deleteable-manager-3@example.com'
-        password: <hashPassword('password')>>
+        emailAddress: deleteable-manager-3<(chr(64))>example.com
+        password: <hashPassword('password')>
         status: <statusVerified()>
         manager: '@manager_3'
+    user_4:
+        uuid: 'd8699bc3-2118-4443-bac0-e4266c059851'
+        emailAddress: manager-4<(chr(64))>example.com
+        password: <hashPassword('password')>
+        status: <statusVerified()>
+        manager: '@manager_4'
+    user_5:
+        uuid: 'd8699bc3-2118-4443-bac0-e4266c059852'
+        emailAddress: manager-5<(chr(64))>example.com
+        password: <hashPassword('password')>
+        status: <statusVerified()>
+        manager: '@manager_5'
+    user_6:
+        uuid: 'd8699bc3-2118-4443-bac0-e4266c059853'
+        emailAddress: manager-6<(chr(64))>example.com
+        password: <hashPassword('password')>
+        status: <statusVerified()>
+        manager: '@manager_6'
+    user_7:
+        uuid: 'd8699bc3-2118-4443-bac0-e4266c059854'
+        emailAddress: manager-7<(chr(64))>example.com
+        password: <hashPassword('password')>
+        status: <statusVerified()>
+        manager: '@manager_7'
+    user_8:
+        uuid: 'd8699bc3-2118-4443-bac0-e4266c059855'
+        emailAddress: manager-8<(chr(64))>example.com
+        password: <hashPassword('password')>
+        status: <statusVerified()>
+        manager: '@manager_8'
+    user_9:
+        uuid: 'd8699bc3-2118-4443-bac0-e4266c059856'
+        emailAddress: manager-9<(chr(64))>example.com
+        password: <hashPassword('password')>
+        status: <statusVerified()>
+        manager: '@manager_9'
+    user_10:
+        uuid: 'd8699bc3-2118-4443-bac0-e4266c059857'
+        emailAddress: manager-10<(chr(64))>example.com
+        password: <hashPassword('password')>
+        status: <statusVerified()>
+        manager: '@manager_10'
+    user_{11..21}:
+        uuid: <uuid()>
+        emailAddress: manager-<current()><(chr(64))>example.com
+        password: <hashPassword('password')>
+        status: <statusVerified()>
+        manager: '@manager_<current()>'
+
+    user_unread:
+        uuid: '190ee115-41fa-4255-8e23-c34a58f7463f'
+        emailAddress: unverified-fixture<(chr(64))>example.com
+        password: <hashPassword('password')>
+        status: <statusNotVerified()>
+        manager: '@manager_unread'

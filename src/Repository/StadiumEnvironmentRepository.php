@@ -5,24 +5,27 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Entity\Club;
+use App\Entity\StadiumEnvironment;
 use App\Repository\Exception\InvalidEntityArgumentTypeException;
 use App\Repository\Interface\CreateEntityInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
-use Symfony\Component\Uid\Uuid;
 
-class ClubRepository extends ServiceEntityRepository implements CreateEntityInterface
+/**
+ * @extends ServiceEntityRepository<StadiumEnvironment>
+ */
+class StadiumEnvironmentRepository extends ServiceEntityRepository implements CreateEntityInterface
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Club::class);
+        parent::__construct($registry, StadiumEnvironment::class);
     }
 
     public function persist(object $entity): static
     {
-        if (!$entity instanceof Club) {
+        if (!$entity instanceof StadiumEnvironment) {
             throw new InvalidEntityArgumentTypeException(
-                Club::class,
+                StadiumEnvironment::class,
                 get_class($entity)
             );
         }
@@ -37,10 +40,5 @@ class ClubRepository extends ServiceEntityRepository implements CreateEntityInte
         $this->getEntityManager()->flush();
 
         return $this;
-    }
-
-    public function findOneByUuid(Uuid $uuid): ?Club
-    {
-        return $this->findOneBy(['uuid' => $uuid->toString()]);
     }
 }

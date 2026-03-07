@@ -15,13 +15,13 @@ class ResetPasswordTest extends AbstractControllerTestCase
     #[Test]
     public function itCanRequestPasswordReset(): void
     {
-        $user = $this->createUserWithManager('reset-test@example.com', 'old-password');
+        $user = $this->userRepository->findOneBy(['emailAddress' => 'manager-11@example.com']);
 
         $crawler = $this->client->request('GET', '/de/forgot-password');
         self::assertResponseIsSuccessful();
 
         $form = $crawler->selectButton('E-Mail zum Zurücksetzen senden')->form([
-            'form[email]' => 'reset-test@example.com',
+            'form[email]' => 'manager-11@example.com',
         ]);
 
         $this->client->submit($form);
@@ -53,16 +53,8 @@ class ResetPasswordTest extends AbstractControllerTestCase
     #[Test]
     public function itCanResetPasswordWithValidToken(): void
     {
-        $user = $this->createUserWithManager('reset-complete@example.com', 'old-password');
-
-        $selector = 'test_selector';
-        $verifier = 'test_verifier';
-        $hashedToken = password_hash($verifier, PASSWORD_BCRYPT);
-        $expiresAt = new \DateTimeImmutable('+1 hour');
-
-        $resetRequest = new ResetPasswordRequest($user, $expiresAt, $selector, $hashedToken);
-        $this->resetPasswordRequestRepository->persist($resetRequest);
-        $this->resetPasswordRequestRepository->flush();
+        $selector = 'fixture_selector';
+        $verifier = 'fixture_verifier';
 
         $crawler = $this->client->request('GET', sprintf('/de/reset-password/%s/%s', $selector, $verifier));
         self::assertResponseIsSuccessful();
@@ -79,11 +71,11 @@ class ResetPasswordTest extends AbstractControllerTestCase
         self::assertSelectorExists('.alert-success');
 
         // Verify password updated
-        $updatedUser = $this->userRepository->findOneBy(['emailAddress' => 'reset-complete@example.com']);
+        self::getContainer()->get('doctrine')->getManager()->clear();
+        $updatedUser = $this->userRepository->findOneBy(['emailAddress' => 'manager-14@example.com']);
         self::assertTrue($this->passwordHasher->isPasswordValid($updatedUser, 'new-password123'));
 
         // Verify token invalidated
-        self::getContainer()->get('doctrine')->getManager()->clear();
         $invalidatedRequest = $this->resetPasswordRequestRepository->findOneBy(['selector' => $selector]);
         self::assertNull($invalidatedRequest);
     }
@@ -91,16 +83,8 @@ class ResetPasswordTest extends AbstractControllerTestCase
     #[Test]
     public function itCannotResetWithExpiredToken(): void
     {
-        $user = $this->createUserWithManager('expired@example.com', 'old-password');
-
         $selector = 'expired_selector';
         $verifier = 'expired_verifier';
-        $hashedToken = password_hash($verifier, PASSWORD_BCRYPT);
-        $expiresAt = new \DateTimeImmutable('-1 minute');
-
-        $resetRequest = new ResetPasswordRequest($user, $expiresAt, $selector, $hashedToken);
-        $this->resetPasswordRequestRepository->persist($resetRequest);
-        $this->resetPasswordRequestRepository->flush();
 
         $this->client->request('GET', sprintf('/de/reset-password/%s/%s', $selector, $verifier));
 
