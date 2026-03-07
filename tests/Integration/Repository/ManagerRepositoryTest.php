@@ -31,7 +31,7 @@ class ManagerRepositoryTest extends AbstractRepositoryTestCase
         $this->assertTrue($this->repository->isManagerNameUnique($name));
 
         $user = new User();
-        $user->setEmailAddress('manager@example.com');
+        $user->setEmailAddress('manager-unique@example.com');
         $user->setPassword('password');
         $user->setStatus(Status::VERIFIED);
         $this->entityManager->persist($user);

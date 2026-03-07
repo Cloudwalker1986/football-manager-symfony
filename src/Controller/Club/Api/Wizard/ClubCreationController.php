@@ -172,9 +172,13 @@ class ClubCreationController extends BaseController
             $this->entityManager->persist($club);
             $this->entityManager->persist($team);
             $this->entityManager->flush();
-            $this->entityManager->commit();
 
-            $this->eventDispatcher->dispatch(new ClubCreated($club->getUuid()));
+            $clubUuid = $club->getUuid();
+            if ($clubUuid !== null) {
+                $this->eventDispatcher->dispatch(new ClubCreated($clubUuid));
+            }
+
+            $this->entityManager->commit();
         } catch (\Exception $e) {
             if ($this->entityManager->getConnection()->isTransactionActive()) {
                 $this->entityManager->rollback();

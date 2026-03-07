@@ -14,6 +14,13 @@ use PHPUnit\Framework\Attributes\Test;
 #[Group('integration-tests')]
 class CleanupMessagesCommandTest extends AbstractControllerTestCase
 {
+    protected function setUp(): void
+    {
+        parent::setUp();
+        // Clear existing messages to ensure test isolation
+        $this->messageRepository->createQueryBuilder('m')->delete()->getQuery()->execute();
+    }
+
     #[Test]
     public function itDeletesOldMessages(): void
     {
