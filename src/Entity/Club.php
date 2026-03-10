@@ -39,6 +39,12 @@ class Club implements IdentifierInterface, DateTimeStamperInterface
     #[ORM\JoinColumn(nullable: false)]
     private ?Manager $manager = null;
 
+    #[ORM\OneToOne(mappedBy: 'club', targetEntity: StadiumEnvironment::class, cascade: ['persist', 'remove'])]
+    private ?StadiumEnvironment $stadiumEnvironment = null;
+
+    #[ORM\OneToOne(mappedBy: 'club', targetEntity: Stadium::class, cascade: ['persist', 'remove'])]
+    private ?Stadium $stadium = null;
+
     #[ORM\OneToMany(targetEntity: Team::class, mappedBy: 'club', cascade: ['persist', 'remove'], orphanRemoval: true)]
     private Collection $teams;
 
@@ -91,6 +97,50 @@ class Club implements IdentifierInterface, DateTimeStamperInterface
     public function setManager(?Manager $manager): static
     {
         $this->manager = $manager;
+
+        return $this;
+    }
+
+    public function getStadiumEnvironment(): ?StadiumEnvironment
+    {
+        return $this->stadiumEnvironment;
+    }
+
+    public function setStadiumEnvironment(?StadiumEnvironment $stadiumEnvironment): static
+    {
+        // unset the owning side of the relation if necessary
+        if ($stadiumEnvironment === null && $this->stadiumEnvironment !== null) {
+            $this->stadiumEnvironment->setClub(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($stadiumEnvironment !== null && $stadiumEnvironment->getClub() !== $this) {
+            $stadiumEnvironment->setClub($this);
+        }
+
+        $this->stadiumEnvironment = $stadiumEnvironment;
+
+        return $this;
+    }
+
+    public function getStadium(): ?Stadium
+    {
+        return $this->stadium;
+    }
+
+    public function setStadium(?Stadium $stadium): static
+    {
+        // unset the owning side of the relation if necessary
+        if ($stadium === null && $this->stadium !== null) {
+            $this->stadium->setClub(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($stadium !== null && $stadium->getClub() !== $this) {
+            $stadium->setClub($this);
+        }
+
+        $this->stadium = $stadium;
 
         return $this;
     }

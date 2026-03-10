@@ -14,13 +14,11 @@ class LoginTest extends AbstractControllerTestCase
     #[Test]
     public function itCanLoginWithValidCredentials(): void
     {
-        $this->createUserWithManager('login-test@example.com', 'password123');
-
         $crawler = $this->client->request('GET', '/de/login');
         // echo $this->client->getResponse()->getContent();
         $form = $crawler->filter('form[action="/de/login"]')->form([
-            '_username' => 'login-test@example.com',
-            '_password' => 'password123',
+            '_username' => 'manager@example.com',
+            '_password' => 'password',
         ]);
 
         $this->client->submit($form);
@@ -28,7 +26,7 @@ class LoginTest extends AbstractControllerTestCase
         self::assertResponseRedirects('/de/dashboard');
         $this->client->followRedirect();
         self::assertSelectorTextContains('h5', 'Dashboard');
-        self::assertSelectorTextContains('p', 'Welcome to the football manager game, login-test@example.com!');
+        self::assertSelectorTextContains('p', 'Welcome to the football manager game, manager@example.com!');
     }
 
     #[Test]
@@ -52,18 +50,17 @@ class LoginTest extends AbstractControllerTestCase
     #[Test]
     public function itCannotLoginWithUnverifiedAccount(): void
     {
-        $this->createUserWithManager('unverified@example.com', 'password123', 'Test Manager', Status::NOT_VERIFIED);
-
         $crawler = $this->client->request('GET', '/de/login');
         $form = $crawler->filter('form[action="/de/login"]')->form([
-            '_username' => 'unverified@example.com',
-            '_password' => 'password123',
+            '_username' => 'unverified-fixture@example.com',
+            '_password' => 'password',
         ]);
 
         $this->client->submit($form);
 
         self::assertResponseRedirects('/de/login');
         $this->client->followRedirect();
+        self::assertSelectorExists('.alert-danger');
         self::assertSelectorTextContains('.alert-danger', 'Your user account is not activated.');
     }
 

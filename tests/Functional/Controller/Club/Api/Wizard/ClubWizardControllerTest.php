@@ -30,7 +30,8 @@ class ClubWizardControllerTest extends WebTestCase
     public function testWizardFlow(): void
     {
         // 1. Setup Data - Use data from fixtures
-        $user = $this->entityManager->getRepository(User::class)->findOneBy(['emailAddress' => 'manager@example.com']);
+        $user = $this->entityManager->getRepository(User::class)->findOneBy(['emailAddress' => 'manager-17@example.com']);
+        $manager = $user->getManager();
         $association = $this->entityManager->getRepository(FootballAssociation::class)->findOneBy(['name' => 'Test FA']);
         $league = $this->entityManager->getRepository(League::class)->findOneBy(['name' => 'Test League']);
 
@@ -74,7 +75,7 @@ class ClubWizardControllerTest extends WebTestCase
 
         // 6. Verify final state
         $this->entityManager->clear();
-        $updatedManager = $this->entityManager->getRepository(Manager::class)->findOneBy(['name' => 'Wizard Manager']);
+        $updatedManager = $this->entityManager->getRepository(Manager::class)->find($manager->getId());
         $this->assertNotNull($updatedManager->getClub());
         $this->assertEquals('Wizard Club', $updatedManager->getClub()->getName());
         $this->assertCount(1, $updatedManager->getClub()->getTeams());
@@ -109,7 +110,7 @@ class ClubWizardControllerTest extends WebTestCase
     public function testLeagueFullValidation(): void
     {
         // 1. Setup Data - Use data from fixtures
-        $user = $this->entityManager->getRepository(User::class)->findOneBy(['emailAddress' => 'manager-2@example.com']);
+        $user = $this->entityManager->getRepository(User::class)->findOneBy(['emailAddress' => 'manager-18@example.com']);
         $association = $this->entityManager->getRepository(FootballAssociation::class)->findOneBy(['name' => 'Full FA']);
         $league = $this->entityManager->getRepository(League::class)->findOneBy(['name' => 'Full League']);
 
@@ -139,8 +140,8 @@ class ClubWizardControllerTest extends WebTestCase
         $association = $this->entityManager->getRepository(FootballAssociation::class)->findOneBy(['name' => 'Unique FA']);
         $league = $this->entityManager->getRepository(League::class)->findOneBy(['name' => 'Unique League']);
 
-        // Create a new user for the wizard (using user_3 from fixtures)
-        $newUser = $this->entityManager->getRepository(User::class)->findOneBy(['emailAddress' => 'deleteable-manager-3@example.com']);
+        // Create a new user for the wizard (using user_19 from fixtures)
+        $newUser = $this->entityManager->getRepository(User::class)->findOneBy(['emailAddress' => 'manager-19@example.com']);
         $this->client->loginUser($newUser);
 
         // Progress through the wizard

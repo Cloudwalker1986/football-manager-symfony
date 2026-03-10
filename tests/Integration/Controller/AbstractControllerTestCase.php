@@ -10,12 +10,15 @@ use App\Manager\Module\User\Enum\Status;
 use App\Repository\ManagerRepository;
 use App\Repository\ResetPasswordRequestRepository;
 use App\Repository\UserRepository;
+use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 abstract class AbstractControllerTestCase extends WebTestCase
 {
+    use RefreshDatabaseTrait;
+
     protected ?KernelBrowser $client;
     protected ?UserRepository $userRepository;
     protected ?ManagerRepository $managerRepository;
@@ -32,30 +35,12 @@ abstract class AbstractControllerTestCase extends WebTestCase
         $this->messageRepository = $container->get(\App\Repository\MessageRepository::class);
         $this->resetPasswordRequestRepository = $container->get(ResetPasswordRequestRepository::class);
         $this->passwordHasher = $container->get(UserPasswordHasherInterface::class);
-        $this->cleanupDatabase();
     }
 
     protected function tearDown(): void
     {
-        $this->cleanupDatabase();
         $this->client = null;
         parent::tearDown();
-    }
-
-    protected function cleanupDatabase(): void
-    {
-        $entityManager = self::getContainer()->get('doctrine')->getManager();
-        $connection = $entityManager->getConnection();
-        $connection->executeStatement('SET FOREIGN_KEY_CHECKS=0');
-        $tables = ['message', 'reset_password_request', 'user_verification', 'manager', 'user'];
-        foreach ($tables as $table) {
-            try {
-                $connection->executeStatement(sprintf('DELETE FROM %s', $table));
-            } catch (\Exception $e) {
-                // Intentionally ignore exceptions during test cleanup
-            }
-        }
-        $connection->executeStatement('SET FOREIGN_KEY_CHECKS=1');
     }
 
     protected function createUserWithManager(
@@ -65,9 +50,13 @@ abstract class AbstractControllerTestCase extends WebTestCase
         Status $status = Status::VERIFIED,
         string $locale = 'de'
     ): User {
+        $container = self::getContainer();
+        $userRepository = $container->get(UserRepository::class);
+        $passwordHasher = $container->get(UserPasswordHasherInterface::class);
+
         $user = new User();
         $user->setEmailAddress($email);
-        $user->setPassword($this->passwordHasher->hashPassword($user, $password));
+        $user->setPassword($passwordHasher->hashPassword($user, $password));
         $user->setStatus($status);
         $user->setLocale($locale);
 
@@ -75,8 +64,8 @@ abstract class AbstractControllerTestCase extends WebTestCase
         $manager->setName($managerName);
         $user->setManager($manager);
 
-        $this->userRepository->persist($user);
-        $this->userRepository->flush();
+        $userRepository->persist($user);
+        $userRepository->flush();
 
         return $user;
     }
